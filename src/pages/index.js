@@ -13,7 +13,7 @@ import { Duration } from 'luxon'
 import useSound from 'use-sound'
 
 export default function Home() {
-  let initialTimer = Duration.fromObject({ minutes: 25, seconds: 0 })
+  let initialTimer = Duration.fromObject({ minutes: 0, seconds: 0 })
 
   const [alarm] = useSound('/alarm.wav', { interrupt: true })
   const [reset] = useSound('/reset.wav', { interrupt: true })
@@ -58,56 +58,20 @@ export default function Home() {
     setPause(prev => !prev)
   }
 
+  const cycles = (duration, cycle) => {
+    clearInterval(intervalRef.current)
+    setButtonDescription(true)
+    setTimer(Duration.fromObject({ minutes: duration, seconds: 0 }))
+    setCycle(cycle)
+  }
+
   useEffect(() => {
-    if (timer == 0 && cycle == 0) {
-      clearInterval(intervalRef.current)
-      setButtonDescription(true)
-      setTimer(Duration.fromObject({ minutes: 5, seconds: 0 }))
-      setCycle(cycle + 1)
-      setPause(prev => !prev)
-      alarm()
-    } else if (timer == 0 && cycle == 1) {
-      clearInterval(intervalRef.current)
-      setButtonDescription(true)
-      setTimer(initialTimer)
-      setCycle(cycle + 1)
-      setPause(prev => !prev)
-      alarm()
-    } else if (timer == 0 && cycle == 2) {
-      clearInterval(intervalRef.current)
-      setButtonDescription(true)
-      setTimer(Duration.fromObject({ minutes: 5, seconds: 0 }))
-      setCycle(cycle + 1)
-      setPause(prev => !prev)
-      alarm()
-    } else if (timer == 0 && cycle == 3) {
-      clearInterval(intervalRef.current)
-      setButtonDescription(true)
-      setTimer(initialTimer)
-      setCycle(cycle + 1)
-      setPause(prev => !prev)
-      alarm()
-    } else if (timer == 0 && cycle == 4) {
-      clearInterval(intervalRef.current)
-      setButtonDescription(true)
-      setTimer(Duration.fromObject({ minutes: 5, seconds: 0 }))
-      setCycle(cycle + 1)
-      setPause(prev => !prev)
-      alarm()
-    } else if (timer == 0 && cycle == 5) {
-      clearInterval(intervalRef.current)
-      setButtonDescription(true)
-      setTimer(initialTimer)
-      setCycle(cycle + 1)
-      setPause(prev => !prev)
-      alarm()
-    } else if (timer == 0 && cycle == 6) {
-      clearInterval(intervalRef.current)
-      setButtonDescription(true)
-      setTimer(Duration.fromObject({ minutes: 15, seconds: 0 }))
-      setPause(prev => !prev)
-      alarm()
-      setCycle(1)
+    if (timer == 0 && cycle % 2 === 0) {
+      cycles(5, cycle += 1)
+    } else if (timer == 0 && cycle < 7) {
+      cycles(1, cycle += 1)
+    } else if (timer == 0 && cycle === 7) {
+      cycles(3, 0)
     }
   }, [timer])
 
@@ -119,7 +83,7 @@ export default function Home() {
       </Box>
 
       <Box
-        bg={cycle % 2 == 0 ? 'red.50' : 'blue.50'}
+        bg={cycle % 2 == 0 ? 'blue.50' : 'red.50'}
         display='flex'
         flexDirection='column'
         justifyContent='center'
