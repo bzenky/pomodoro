@@ -6,6 +6,7 @@ Conforme o livro de Cirillo “The Pomodoro Technique”, a técnica foi criada 
 </blockquote>
 
 <h2> Funcionamento </h2>
+<p><a href='https://pomo-pomodoro.vercel.app/'>Versão beta atual</a></p>
 <p>Utilizando de ciclos entre estudo/foco e descansos, o objetivo da técnica Pomodoro é aumentar a concentração, a eficiência e até uma melhor administração do tempo, seja em estudos ou no trabalho. Os ciclos do Pomodoro são definidos pelo foco, descanso curto e descanso maior. Após 03 descansos curtos, o 04º (quarto) é um descanso maior, reiniciando o ciclo logo ao término do descanso maior.</p>
 <p>Como padrão, os tempos são definidos do seguinte modo:<p>
 <ul>
@@ -13,3 +14,15 @@ Conforme o livro de Cirillo “The Pomodoro Technique”, a técnica foi criada 
   <li><strong>Descanso menor</strong>: 5 minutos</li>
   <li><strong>Descanso maior</strong>: 15 minutos</li>
 </ul>
+
+<h2> Funcionalidades </h2>
+<p>Há um roadmap com diversas implementações a serem feitas, então aos poucos o projeto será atualizado. Nos acompanhe 😄</p>
+
+<h2> Feedbacks </h2>
+<p>Contribuições, correções e sugestões de melhoria são muito bem-vindas.</p>
+
+<hr>
+
+<p align='center'>
+  <strong>Projeto Desenvolvido e Codado por <a href='https://www.github.com/jeanlimadev'>Jean Lima</a> e <a href='https://www.github.com/bzenky'>Zenky</a></strong>
+</p>
