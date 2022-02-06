@@ -93,7 +93,7 @@ export default function Home() {
     <>
       <Head>
           <title>PomoPomo - {timer.toFormat('mm:ss')}</title>
-        </Head>
+      </Head>
       <Container
         align="center"
         maxW='100vw'
