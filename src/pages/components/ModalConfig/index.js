@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useState } from 'react'
 
 import {
   Button,
@@ -25,60 +25,63 @@ import { SettingsIcon } from '@chakra-ui/icons'
 
 import { Duration } from 'luxon'
 
-import { AppContext } from '../../../contexts/AppContext'
+import { useAppContext } from '../../../contexts/AppContext'
 
-export default function ModalConfig(props) {
-  const context = useContext(AppContext)
+export default function ModalConfig() {
+  const context = useAppContext()
 
+  const [focusConfig, setFocusConfig] = useState(context.focusDuration)
+  const [shortBreakConfig, setShortBreakConfig] = useState(context.shortBreakDuration)
+  const [longBreakConfig, setLongBreakConfig] = useState(context.longBreakDuration)
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   function handleSubmit(e) {
     e.preventDefault()
-    
-    context.setTimer(Duration.fromObject({ minutes: context.focusDuration }))
+
+    context.setFocusDuration(focusConfig)
+    context.setTimer(Duration.fromObject({ minutes: focusConfig }))
+    context.setShortBreakDuration(shortBreakConfig)
+    context.setLongBreakDuration(longBreakConfig)
+    context.setCycle(1)
 
     onClose()
   }
 
   return (
     <>
-      <Flex>
+      <Flex justifyContent='end'>
         <IconButton
           onClick={onOpen}
           bg='transparent'
           aria-label='Open Pomodoro configurations'
           icon={<SettingsIcon />}
-          marginLeft='90%'
+          size='lg'
         />
       </Flex>
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent w='400px' maxW='90%'>
+        <ModalContent >
           <ModalHeader textAlign='center'>Configs</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <FormControl as="form" onSubmit={handleSubmit}>
-              <Flex 
+              <Flex
                 flexDirection='column'
-                boxShadow='0 0 5px gray'
+                justifyContent='center'
                 borderRadius='5px'
-                p='10px'
-                margin='10px'
               >
-                <FormLabel textAlign='center' htmlFor='focusDuration'>Focus Duration</FormLabel>
+                <FormLabel textAlign='center'>Focus Duration</FormLabel>
                 <Flex>
                   <NumberInput
                     w='80px'
                     margin='10px'
-                    min={0}
-                    value={context.focusDuration}
-                    onChange={val => context.setFocusDuration(val)}
+                    min={1}
+                    value={focusConfig}
+                    onChange={val => setFocusConfig(val)}
                     type='number'
                     name='focusDuration'
-                    id='focusDuration'
                     variant='filled'
-                    required
                   >
                     <NumberInputField />
                   </NumberInput>
@@ -86,65 +89,60 @@ export default function ModalConfig(props) {
                     w='80%'
                     margin='10px'
                     flex='1'
+                    min={1}
                     focusThumbOnChange={false}
-                    value={context.focusDuration}
-                    onChange={val => context.setFocusDuration(val)}
+                    value={focusConfig}
+                    onChange={val => setFocusConfig(val)}
                   >
                     <SliderTrack h='5px'>
-                      <SliderFilledTrack />
+                      <SliderFilledTrack bg={'red.300'} />
                     </SliderTrack>
                     <SliderThumb bg='gray.500' />
                   </Slider>
                 </Flex>
-                <Flex justifyContent='center'>
+                <Flex justifyContent='center' mt='2'>
                   <Button
-                    onClick={() => context.setFocusDuration(25)}
+                    onClick={() => setFocusConfig(25)}
                     colorScheme='blue'
-                    m='5px'
-                    w='25px'
-                    h='25px'
+                    size='sm'
                   >
                     25
                   </Button>
                   <Button
-                    onClick={() => context.setFocusDuration(45)}
+                    onClick={() => setFocusConfig(45)}
                     colorScheme='blue'
-                    m='5px'
-                    w='25px'
-                    h='25px'
+                    size='sm'
+                    ml='4'
                   >
                     45
                   </Button>
                   <Button
-                    onClick={() => context.setFocusDuration(60)}
+                    onClick={() => setFocusConfig(60)}
                     colorScheme='blue'
-                    m='5px'
-                    w='25px'
-                    h='25px'
+                    ml='4'
+                    size='sm'
                   >
                     60
                   </Button>
                 </Flex>
               </Flex>
 
-              <Flex 
+              <Flex
                 flexDirection='column'
-                boxShadow='0 0 5px gray'
-                borderRadius='5px'
+                borderTop='1px solid rgba(0 0 0 / .08)'
                 p='10px'
                 margin='10px'
               >
-                <FormLabel htmlFor='shortBreakDuration' textAlign='center' mt='4'>Short Break Duration</FormLabel>
+                <FormLabel textAlign='center'>Short Break Duration</FormLabel>
                 <Flex>
                   <NumberInput
                     w='80px'
                     margin='10px'
-                    min={0}
-                    value={context.shortBreakDuration}
-                    onChange={val => context.setShortBreakDuration(val)}
+                    min={1}
+                    value={shortBreakConfig}
+                    onChange={val => setShortBreakConfig(val)}
                     type='number'
                     name='shortBreakDuration'
-                    id='shortBreakDuration'
                     variant='filled'
                   >
                     <NumberInputField />
@@ -153,65 +151,60 @@ export default function ModalConfig(props) {
                     w='80%'
                     margin='10px'
                     flex='1'
+                    min={1}
                     focusThumbOnChange={false}
-                    value={context.shortBreakDuration}
-                    onChange={val => context.setShortBreakDuration(val)}
+                    value={shortBreakConfig}
+                    onChange={val => setShortBreakConfig(val)}
                   >
                     <SliderTrack h='5px'>
-                      <SliderFilledTrack />
+                      <SliderFilledTrack bg={'red.300'} />
                     </SliderTrack>
                     <SliderThumb bg='gray.500' />
                   </Slider>
                 </Flex>
-                <Flex justifyContent='center'>
+                <Flex justifyContent='center' mt='2'>
                   <Button
-                    onClick={() => context.setShortBreakDuration(5)}
+                    onClick={() => setShortBreakConfig(5)}
                     colorScheme='blue'
-                    m='5px'
-                    w='25px'
-                    h='25px'
+                    size='sm'
                   >
-                    5
+                    05
                   </Button>
                   <Button
-                    onClick={() => context.setShortBreakDuration(10)}
+                    onClick={() => setShortBreakConfig(10)}
                     colorScheme='blue'
-                    m='5px'
-                    w='25px'
-                    h='25px'
+                    size='sm'
+                    ml='4'
                   >
                     10
                   </Button>
                   <Button
-                    onClick={() => context.setShortBreakDuration(15)}
+                    onClick={() => setShortBreakConfig(15)}
                     colorScheme='blue'
-                    m='5px'
-                    w='25px'
-                    h='25px'
+                    size='sm'
+                    ml='4'
                   >
                     15
                   </Button>
                 </Flex>
               </Flex>
 
-              <Flex 
+              <Flex
                 flexDirection='column'
-                boxShadow='0 0 5px gray'
-                borderRadius='5px'
+                borderTop='1px solid rgba(0 0 0 / .08)'
                 p='10px'
                 margin='10px'
               >
-                <FormLabel htmlFor='longBreakDuration' textAlign='center' mt='4'>Long Break Duration</FormLabel>
+                <FormLabel textAlign='center'>Long Break Duration</FormLabel>
                 <Flex>
                   <NumberInput
                     w='80px'
                     margin='10px'
-                    min={0}
-                    value={context.longBreakDuration}
-                    onChange={val => context.setLongBreakDuration(val)}
+                    min={1}
+                    value={longBreakConfig}
+                    onChange={val => setLongBreakConfig(val)}
                     type='number'
                     name='shortBreakDuration'
-                    id='shortBreakDuration'
                     variant='filled'
                   >
                     <NumberInputField />
@@ -220,49 +213,46 @@ export default function ModalConfig(props) {
                     w='80%'
                     margin='10px'
                     flex='1'
+                    min={1}
                     focusThumbOnChange={false}
-                    value={context.longBreakDuration}
-                    onChange={val => context.setLongBreakDuration(val)}
+                    value={longBreakConfig}
+                    onChange={val => setLongBreakConfig(val)}
                   >
                     <SliderTrack h='5px'>
-                      <SliderFilledTrack />
+                      <SliderFilledTrack bg={'red.300'} />
                     </SliderTrack>
                     <SliderThumb bg='gray.500' />
                   </Slider>
                 </Flex>
-                <Flex justifyContent='center'>
+                <Flex justifyContent='center' mt='2'>
                   <Button
-                    onClick={() => context.setLongBreakDuration(15)}
+                    onClick={() => setLongBreakConfig(15)}
                     colorScheme='blue'
-                    m='5px'
-                    w='25px'
-                    h='25px'
+                    size='sm'
                   >
                     15
                   </Button>
                   <Button
-                    onClick={() => context.setLongBreakDuration(20)}
+                    onClick={() => setLongBreakConfig(20)}
                     colorScheme='blue'
-                    m='5px'
-                    w='25px'
-                    h='25px'
+                    size='sm'
+                    ml='4'
                   >
                     20
                   </Button>
                   <Button
-                    onClick={() => context.setLongBreakDuration(25)}
+                    onClick={() => setLongBreakConfig(25)}
                     colorScheme='blue'
-                    m='5px'
-                    w='25px'
-                    h='25px'
+                    size='sm'
+                    ml='4'
                   >
                     25
                   </Button>
                 </Flex>
               </Flex>
 
-              <Flex py='6'>
-                <Button type='submit' colorScheme='blue' margin='0 auto'>
+              <Flex py='4' justifyContent='center'>
+                <Button type='submit' colorScheme='blue' size='md'>
                   Apply
                 </Button>
               </Flex>

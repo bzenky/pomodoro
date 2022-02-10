@@ -14,14 +14,10 @@ import {
 import { Duration } from 'luxon'
 import useSound from 'use-sound'
 import ModalConfig from './components/ModalConfig'
-
-import { AppContext } from '../contexts/AppContext'
+import { useAppContext } from '../contexts/AppContext'
 
 export default function Home() {
-  const context = useContext(AppContext)
-
-  const [cycle, setCycle] = useState(1)
-  const [cycleState, setCycleState] = useState('focus')
+  const context = useAppContext()
 
   const [buttonDescription, setButtonDescription] = useState(true)
   const [pause, setPause] = useState(true)
@@ -49,7 +45,7 @@ export default function Home() {
       clearInterval(intervalRef.current)
     } else {
       setButtonDescription(false)
-      intervalRef.current = setInterval(decreaseNum, 1000)
+      intervalRef.current = setInterval(decreaseNum, 1)
     }
     setPause(prev => !prev)
   }
@@ -57,9 +53,9 @@ export default function Home() {
   const resetTimer = () => {
     setButtonDescription(true)
     context.setTimer(context.initialTimer)
-    setCycle(1)
+    context.setCycle(1)
     setPause(true)
-    setCycleState('focus')
+    context.setCycleState('focus')
     clearInterval(intervalRef.current)
     reset()
   }
@@ -67,7 +63,7 @@ export default function Home() {
   const cycles = (duration, cycle) => {
     setButtonDescription(true)
     context.setTimer(Duration.fromObject({ minutes: duration }))
-    setCycle(cycle)
+    context.setCycle(cycle)
     setPause(true)
     clearInterval(intervalRef.current)
   }
@@ -77,18 +73,18 @@ export default function Home() {
       alarm()
     }
 
-    if (context.timer == 0 && cycle % 2 === 0) {
-      cycles(context.focusDuration, cycle += 1)
-      setCycleState('focus')
-    } else if (context.timer == 0 && cycle < 7) {
-      cycles(context.shortBreakDuration, cycle += 1)
-      setCycleState('shortBreak')
-    } else if (context.timer == 0 && cycle === 7) {
+    if (context.timer == 0 && context.cycle % 2 === 0) {
+      cycles(context.focusDuration, context.cycle += 1)
+      context.setCycleState('focus')
+    } else if (context.timer == 0 && context.cycle < 7) {
+      cycles(context.shortBreakDuration, context.cycle += 1)
+      context.setCycleState('shortBreak')
+    } else if (context.timer == 0 && context.cycle === 7) {
       cycles(context.longBreakDuration, 0)
-      setCycleState('longBreak')
+      context.setCycleState('longBreak')
     }
   }, [context.timer])
-  
+
   return (
     <>
       <Head>
@@ -102,9 +98,9 @@ export default function Home() {
         height='100vh'
         bg=
         {
-          cycleState == 'focus'
+          context.cycleState == 'focus'
             ? 'red.100'
-            : cycleState == 'shortBreak'
+            : context.cycleState == 'shortBreak'
               ? 'blue.100'
               : 'blue.200'
         }
@@ -112,7 +108,7 @@ export default function Home() {
       >
         <Box pt="70" maxWidth="xl" >
           <ModalConfig />
-          <Heading as='h1' pb='2' fontSize={['5xl', '6xl']} color='red.500'>Pomodoro</Heading>
+          <Heading as='h1' py='2' fontSize={['5xl', '6xl']} color='red.500'>Pomodoro</Heading>
           <Text mt='4' fontSize={['xl', '2xl']} >Helping you achieve the most of yourself!</Text>
         </Box>
 
