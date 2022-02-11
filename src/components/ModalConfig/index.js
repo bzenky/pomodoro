@@ -128,7 +128,6 @@ export default function ModalConfig() {
                   </Button>
                   <Button
                     onClick={() => setFocusConfig(45)}
-                    onClick={() => setFocusConfig(25)}
                     bg='red.300'
                     color='white'
                     _hover={{ bg: 'red.400' }}
@@ -144,7 +143,6 @@ export default function ModalConfig() {
                   </Button>
                   <Button
                     onClick={() => setFocusConfig(60)}
-                    onClick={() => setFocusConfig(25)}
                     bg='red.300'
                     color='white'
                     _hover={{ bg: 'red.400' }}
@@ -200,7 +198,6 @@ export default function ModalConfig() {
                 <Flex justifyContent='center' mt='2'>
                   <Button
                     onClick={() => setShortBreakConfig(5)}
-                    onClick={() => setFocusConfig(25)}
                     bg='red.300'
                     color='white'
                     _hover={{ bg: 'red.400' }}
@@ -215,7 +212,6 @@ export default function ModalConfig() {
                   </Button>
                   <Button
                     onClick={() => setShortBreakConfig(10)}
-                    onClick={() => setFocusConfig(25)}
                     bg='red.300'
                     color='white'
                     _hover={{ bg: 'red.400' }}
@@ -231,7 +227,6 @@ export default function ModalConfig() {
                   </Button>
                   <Button
                     onClick={() => setShortBreakConfig(15)}
-                    onClick={() => setFocusConfig(25)}
                     bg='red.300'
                     color='white'
                     _hover={{ bg: 'red.400' }}
@@ -287,7 +282,6 @@ export default function ModalConfig() {
                 <Flex justifyContent='center' mt='2'>
                   <Button
                     onClick={() => setLongBreakConfig(15)}
-                    onClick={() => setFocusConfig(25)}
                     bg='red.300'
                     color='white'
                     _hover={{ bg: 'red.400' }}
@@ -302,7 +296,6 @@ export default function ModalConfig() {
                   </Button>
                   <Button
                     onClick={() => setLongBreakConfig(20)}
-                    onClick={() => setFocusConfig(25)}
                     bg='red.300'
                     color='white'
                     _hover={{ bg: 'red.400' }}
@@ -318,7 +311,6 @@ export default function ModalConfig() {
                   </Button>
                   <Button
                     onClick={() => setLongBreakConfig(25)}
-                    onClick={() => setFocusConfig(25)}
                     bg='red.300'
                     color='white'
                     _hover={{ bg: 'red.400' }}
