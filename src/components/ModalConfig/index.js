@@ -25,7 +25,7 @@ import { SettingsIcon } from '@chakra-ui/icons'
 
 import { Duration } from 'luxon'
 
-import { useAppContext } from '../../../contexts/AppContext'
+import { useAppContext } from '../../contexts/AppContext'
 
 export default function ModalConfig() {
   const context = useAppContext()
@@ -47,11 +47,21 @@ export default function ModalConfig() {
     onClose()
   }
 
+  function openConfig() {
+    if (!context.pause) {
+      context.setButtonDescription(true)
+      clearInterval(context.intervalRef.current)
+      context.setPause(true)
+    } 
+
+    onOpen()
+  }
+
   return (
     <>
       <Flex justifyContent='end'>
         <IconButton
-          onClick={onOpen}
+          onClick={openConfig}
           bg='transparent'
           aria-label='Open Pomodoro configurations'
           icon={<SettingsIcon />}
