@@ -15,8 +15,8 @@ import ModalConfig from '../components/ModalConfig'
 import { useAppContext } from '../contexts/AppContext'
 
 export default function Home() {
+  
   const context = useAppContext()
-  console.log('renderizou novamente')
 
   useEffect(() => {
     if (context.timer == 0) {
@@ -26,13 +26,25 @@ export default function Home() {
     if (context.timer == 0 && context.cycle % 2 === 0) {
       context.cycles(context.focusDuration, context.cycle += 1)
       context.setCycleState('focus')
+      context.pushNotification()
     } else if (context.timer == 0 && context.cycle < 7) {
       context.cycles(context.shortBreakDuration, context.cycle += 1)
       context.setCycleState('shortBreak')
+      context.pushNotification()
     } else if (context.timer == 0 && context.cycle === 7) {
       context.cycles(context.longBreakDuration, 0)
       context.setCycleState('longBreak')
+      context.pushNotification()
     }
+
+    if (!window.Notification) {
+      console.log('Esse browser não suporta notificações desktop');
+    } else {
+      if (window.Notification.permission !== 'granted') {
+        window.Notification.requestPermission();
+      }
+    }
+     
   }, [context.timer])
 
   return (

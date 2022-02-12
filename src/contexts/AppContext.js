@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useRef } from "react"
+import { createContext, useContext, useState, useRef } from 'react'
 
 import { Duration } from 'luxon'
 
@@ -6,7 +6,7 @@ import useSound from 'use-sound'
 
 const AppContext = createContext()
 
-import { ObterFrase } from "../utils/Frases"
+import { ObterFrase } from '../utils/Frases'
 
 export function AppContextProvider({ children }) {
 
@@ -47,7 +47,7 @@ export function AppContextProvider({ children }) {
       clearInterval(intervalRef.current)
     } else {
       setButtonDescription(false)
-      intervalRef.current = setInterval(decreaseNum, 1)
+      intervalRef.current = setInterval(decreaseNum, 3)
     }
     setPause(prev => !prev)
   }
@@ -68,6 +68,19 @@ export function AppContextProvider({ children }) {
     setCycle(cycle)
     setPause(true)
     clearInterval(intervalRef.current)
+  }
+
+  function pushNotification() {
+    if (window.Notification.permission === 'granted') {
+      const notification = new Notification('Atenção!!', {
+        body: 'Seu ciclo terminou!',
+      });
+      
+      notification.onclick = (e) => {
+        e.preventDefault();
+        notification.close();
+      }
+    }
   }
 
   const values = {
@@ -96,6 +109,7 @@ export function AppContextProvider({ children }) {
     resetTimer,
     cycles,
     ObterFrase,
+    pushNotification
   }
 
   return (
