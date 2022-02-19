@@ -22,9 +22,11 @@ export function AppContextProvider({ children }) {
   const [buttonDescription, setButtonDescription] = useState(true)
   const [pause, setPause] = useState(true)
 
-  const [alarm] = useSound('/alarm.wav', { interrupt: true })
-  const [reset] = useSound('/reset.wav', { interrupt: true, volume: 0.6 })
-  const [clock] = useSound('/clock.wav', { interrupt: true })
+  const [muted, setMuted] = useState(false)
+
+  const [alarm] = useSound('/alarm.wav', { interrupt: true, volume: muted ? 0 : 1 })
+  const [reset] = useSound('/reset.wav', { interrupt: true, volume: muted ? 0 : 0.6 })
+  const [clock] = useSound('/clock.wav', { interrupt: true, volume: muted ? 0 : 1 })
 
   let intervalRef = useRef()
 
@@ -82,6 +84,8 @@ export function AppContextProvider({ children }) {
     setShortBreakDuration,
     setTimer,
     timer,
+    muted,
+    setMuted,
     buttonDescription,
     setButtonDescription,
     pause,
@@ -96,9 +100,9 @@ export function AppContextProvider({ children }) {
   }
 
   return (
-      <AppContext.Provider value={values}>
-          {children}
-      </AppContext.Provider>
+    <AppContext.Provider value={values}>
+      {children}
+    </AppContext.Provider>
   )
 }
 

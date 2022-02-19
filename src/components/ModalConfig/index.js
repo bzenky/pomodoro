@@ -59,15 +59,14 @@ export default function ModalConfig() {
 
   return (
     <>
-      <Flex justifyContent='end'>
-        <IconButton
-          onClick={openConfig}
-          bg='transparent'
-          aria-label='Open Pomodoro configurations'
-          icon={<SettingsIcon />}
-          size='lg'
-        />
-      </Flex>
+      <IconButton
+        onClick={openConfig}
+        bg='transparent'
+        aria-label='Open Pomodoro configurations'
+        icon={<SettingsIcon />}
+        size='lg'
+      />
+
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />

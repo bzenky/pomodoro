@@ -6,6 +6,7 @@ import {
   Box,
   Button,
   Container,
+  Flex,
   Heading,
   HStack,
   Text,
@@ -13,6 +14,7 @@ import {
 
 import ModalConfig from '../components/ModalConfig'
 import { useAppContext } from '../contexts/AppContext'
+import { MuteConfig } from '../components/MuteConfig'
 
 export default function Home() {
   const context = useAppContext()
@@ -56,7 +58,11 @@ export default function Home() {
         transition="background-color 300ms linear"
       >
         <Box pt="70" maxWidth="xl" >
-          <ModalConfig />
+          <Flex justify="end">
+            <MuteConfig />
+            <ModalConfig />
+          </Flex>
+
           <Heading as='h1' py='2' fontSize={['5xl', '6xl']} color='red.500'>Pomodoro</Heading>
           <Text mt='4' fontSize={['xl', '2xl']} >Helping you achieve the most of yourself!</Text>
         </Box>
