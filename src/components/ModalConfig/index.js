@@ -18,6 +18,7 @@ import {
   SliderTrack,
   SliderFilledTrack,
   SliderThumb,
+  Switch,
   useDisclosure
 } from '@chakra-ui/react'
 
@@ -27,6 +28,8 @@ import { Duration } from 'luxon'
 
 import { useAppContext } from '../../contexts/AppContext'
 
+import { requestNotificationPermission } from '../../utils/push-notification'
+
 export default function ModalConfig() {
   const context = useAppContext()
 
@@ -34,6 +37,15 @@ export default function ModalConfig() {
   const [shortBreakConfig, setShortBreakConfig] = useState(context.shortBreakDuration)
   const [longBreakConfig, setLongBreakConfig] = useState(context.longBreakDuration)
   const { isOpen, onOpen, onClose } = useDisclosure()
+
+  function toggleSwitch() {
+    if (context.notifications){
+      context.setNotifications(false)
+    } else {
+      requestNotificationPermission()
+      context.setNotifications(true)
+    }
+  }
 
   function handleSubmit(e) {
     e.preventDefault()
@@ -324,6 +336,15 @@ export default function ModalConfig() {
                     25
                   </Button>
                 </Flex>
+              </Flex>
+
+              <Flex py='4' justifyContent='center'>
+                <FormLabel htmlFor='longBreakDuration' textAlign='center'>Show notifications</FormLabel>
+                <Switch 
+                  colorScheme='red'
+                  onChange={toggleSwitch}
+                  isChecked={context.notifications}
+                />
               </Flex>
 
               <Flex py='4' justifyContent='center'>

@@ -10,6 +10,7 @@ import {
   Heading,
   HStack,
   Text,
+  useToast,
 } from '@chakra-ui/react'
 
 import ModalConfig from '../components/ModalConfig'
@@ -19,6 +20,16 @@ import { MuteConfig } from '../components/MuteConfig'
 export default function Home() {
   const context = useAppContext()
 
+  const toast = useToast({
+    title: 'Atenção!',
+    description: "Seu ciclo terminou.",
+    status: 'info',
+    duration: 5000,
+    isClosable: true,
+    variant: 'solid',
+    position: 'bottom'
+  })
+
   useEffect(() => {
     if (context.timer == 0) {
       context.alarm()
@@ -27,12 +38,18 @@ export default function Home() {
     if (context.timer == 0 && context.cycle % 2 === 0) {
       context.cycles(context.focusDuration, context.cycle += 1)
       context.setCycleState('focus')
+      context.pushNotification()
+      toast()
     } else if (context.timer == 0 && context.cycle < 7) {
       context.cycles(context.shortBreakDuration, context.cycle += 1)
       context.setCycleState('shortBreak')
+      context.pushNotification()
+      toast()
     } else if (context.timer == 0 && context.cycle === 7) {
       context.cycles(context.longBreakDuration, 0)
       context.setCycleState('longBreak')
+      context.pushNotification()
+      toast()
     }
   }, [context.timer])
 
