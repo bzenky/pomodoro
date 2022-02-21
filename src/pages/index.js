@@ -9,6 +9,7 @@ import {
   Heading,
   HStack,
   Text,
+  useToast
 } from '@chakra-ui/react'
 
 import ModalConfig from '../components/ModalConfig'
@@ -18,7 +19,18 @@ export default function Home() {
   
   const context = useAppContext()
 
+  const toast = useToast({
+    title: 'Atenção!',
+    description: "Seu ciclo terminou.",
+    status: 'info',
+    duration: 5000,
+    isClosable: true,
+    variant: 'solid',
+    position: 'bottom'
+  })
+
   useEffect(() => {
+
     if (context.timer == 0) {
       context.alarm()
     }
@@ -27,22 +39,17 @@ export default function Home() {
       context.cycles(context.focusDuration, context.cycle += 1)
       context.setCycleState('focus')
       context.pushNotification()
+      toast()
     } else if (context.timer == 0 && context.cycle < 7) {
       context.cycles(context.shortBreakDuration, context.cycle += 1)
       context.setCycleState('shortBreak')
       context.pushNotification()
+      toast()
     } else if (context.timer == 0 && context.cycle === 7) {
       context.cycles(context.longBreakDuration, 0)
       context.setCycleState('longBreak')
       context.pushNotification()
-    }
-
-    if (!window.Notification) {
-      console.log('Esse browser não suporta notificações desktop');
-    } else {
-      if (window.Notification.permission !== 'granted') {
-        window.Notification.requestPermission();
-      }
+      toast()
     }
      
   }, [context.timer])
@@ -83,10 +90,6 @@ export default function Home() {
         >
           <Text fontSize={['7xl', '8xl']} my="3" color='gray.600' fontWeight='500'>
             {context.timer.toFormat('mm:ss')}
-          </Text>
-
-          <Text fontSize={['1xl', '2xl']} my="3" color='gray.600' fontWeight='500'>
-            {context.ObterFrase(context.cycleState)}
           </Text>
 
           <HStack spacing='83' >

@@ -1,12 +1,18 @@
 import { createContext, useContext, useState, useRef } from 'react'
 
+import { notificationPersistedState } from '../utils/notificationPersistedState'
+
 import { Duration } from 'luxon'
+
+import { getMessaging, getToken } from 'firebase/messaging'
 
 import useSound from 'use-sound'
 
 const AppContext = createContext()
 
-import { ObterFrase } from '../utils/Frases'
+import Favicon from '../../public/favicon.ico'
+
+import axios from 'axios'
 
 export function AppContextProvider({ children }) {
 
@@ -23,6 +29,7 @@ export function AppContextProvider({ children }) {
 
   const [buttonDescription, setButtonDescription] = useState(true)
   const [pause, setPause] = useState(true)
+  const [notifications, setNotifications] = notificationPersistedState('notificationActived', false)
 
   const [alarm] = useSound('/alarm.wav', { interrupt: true })
   const [reset] = useSound('/reset.wav', { interrupt: true, volume: 0.6 })
@@ -70,16 +77,30 @@ export function AppContextProvider({ children }) {
     clearInterval(intervalRef.current)
   }
 
-  function pushNotification() {
-    if (window.Notification.permission === 'granted') {
-      const notification = new Notification('Atenção!!', {
-        body: 'Seu ciclo terminou!',
-      });
-      
-      notification.onclick = (e) => {
-        e.preventDefault();
-        notification.close();
+  async function pushNotification() {
+    if (notifications) {
+      const messaging = getMessaging()
+
+      const token = await getToken(messaging, {vapidKey: process.env.NEXT_PUBLIC_VAPID_KEY})
+
+      const header = {
+        'Content-Type': 'application/json',
+        'Authorization': process.env.NEXT_PUBLIC_SERVER_KEY
       }
+
+      const body = {
+        'notification': {
+          'title': 'Atenção!! Seu ciclo terminou.',
+          'body': 'Retorne ao App para continuar.',
+          'icon': Favicon.src,
+          'vibrate': [200, 100, 200]
+        },
+        'to': token
+      }
+      
+      const url = 'https://fcm.googleapis.com/fcm/send'
+
+      axios.post(url, body,{ headers: header })
     }
   }
 
@@ -108,14 +129,15 @@ export function AppContextProvider({ children }) {
     handleClick,
     resetTimer,
     cycles,
-    ObterFrase,
-    pushNotification
+    pushNotification,
+    notifications,
+    setNotifications,
   }
 
   return (
-      <AppContext.Provider value={values}>
-          {children}
-      </AppContext.Provider>
+    <AppContext.Provider value={values}>
+      {children}
+    </AppContext.Provider>
   )
 }
 

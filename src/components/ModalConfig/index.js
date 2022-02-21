@@ -18,6 +18,7 @@ import {
   SliderTrack,
   SliderFilledTrack,
   SliderThumb,
+  Switch,
   useDisclosure
 } from '@chakra-ui/react'
 
@@ -27,13 +28,25 @@ import { Duration } from 'luxon'
 
 import { useAppContext } from '../../contexts/AppContext'
 
+import { requestNotificationPermission } from '../../utils/push-notification'
+
 export default function ModalConfig() {
+
   const context = useAppContext()
 
   const [focusConfig, setFocusConfig] = useState(context.focusDuration)
   const [shortBreakConfig, setShortBreakConfig] = useState(context.shortBreakDuration)
   const [longBreakConfig, setLongBreakConfig] = useState(context.longBreakDuration)
   const { isOpen, onOpen, onClose } = useDisclosure()
+
+  function toggleSwitch() {
+    if (context.notifications){
+      context.setNotifications(false)
+    } else {
+      requestNotificationPermission()
+      context.setNotifications(true)
+    }
+  }
 
   function handleSubmit(e) {
     e.preventDefault()
@@ -52,7 +65,7 @@ export default function ModalConfig() {
       context.setButtonDescription(true)
       clearInterval(context.intervalRef.current)
       context.setPause(true)
-    } 
+    }
 
     onOpen()
   }
@@ -78,10 +91,10 @@ export default function ModalConfig() {
             <FormControl as="form" onSubmit={handleSubmit}>
               <Flex
                 flexDirection='column'
-                justifyContent='center'
-                borderRadius='5px'
+                padding='0 10px 10px'
+                margin='0 10px 10px'
               >
-                <FormLabel textAlign='center'>Focus Duration</FormLabel>
+                <FormLabel htmlFor='focusDuration' textAlign='center'>Focus Duration</FormLabel>
                 <Flex>
                   <NumberInput
                     w='80px'
@@ -91,6 +104,7 @@ export default function ModalConfig() {
                     onChange={val => setFocusConfig(val)}
                     type='number'
                     name='focusDuration'
+                    id='focusDuration'
                     variant='filled'
                   >
                     <NumberInputField />
@@ -113,14 +127,28 @@ export default function ModalConfig() {
                 <Flex justifyContent='center' mt='2'>
                   <Button
                     onClick={() => setFocusConfig(25)}
-                    colorScheme='blue'
+                    bg='red.300'
+                    color='white'
+                    _hover={{ bg: 'red.400' }}
+                    _active={{
+                      bg: 'red.400',
+                      transform: 'scale(0.98)',
+                      borderColor: '#bec3c9',
+                    }}
                     size='sm'
                   >
                     25
                   </Button>
                   <Button
                     onClick={() => setFocusConfig(45)}
-                    colorScheme='blue'
+                    bg='red.300'
+                    color='white'
+                    _hover={{ bg: 'red.400' }}
+                    _active={{
+                      bg: 'red.400',
+                      transform: 'scale(0.98)',
+                      borderColor: '#bec3c9',
+                    }}
                     size='sm'
                     ml='4'
                   >
@@ -128,7 +156,14 @@ export default function ModalConfig() {
                   </Button>
                   <Button
                     onClick={() => setFocusConfig(60)}
-                    colorScheme='blue'
+                    bg='red.300'
+                    color='white'
+                    _hover={{ bg: 'red.400' }}
+                    _active={{
+                      bg: 'red.400',
+                      transform: 'scale(0.98)',
+                      borderColor: '#bec3c9',
+                    }}
                     ml='4'
                     size='sm'
                   >
@@ -143,7 +178,7 @@ export default function ModalConfig() {
                 p='10px'
                 margin='10px'
               >
-                <FormLabel textAlign='center'>Short Break Duration</FormLabel>
+                <FormLabel htmlFor='shortBreakDuration' textAlign='center'>Short Break Duration</FormLabel>
                 <Flex>
                   <NumberInput
                     w='80px'
@@ -153,6 +188,7 @@ export default function ModalConfig() {
                     onChange={val => setShortBreakConfig(val)}
                     type='number'
                     name='shortBreakDuration'
+                    id='shortBreakDuration'
                     variant='filled'
                   >
                     <NumberInputField />
@@ -175,14 +211,28 @@ export default function ModalConfig() {
                 <Flex justifyContent='center' mt='2'>
                   <Button
                     onClick={() => setShortBreakConfig(5)}
-                    colorScheme='blue'
+                    bg='red.300'
+                    color='white'
+                    _hover={{ bg: 'red.400' }}
+                    _active={{
+                      bg: 'red.400',
+                      transform: 'scale(0.98)',
+                      borderColor: '#bec3c9',
+                    }}
                     size='sm'
                   >
                     05
                   </Button>
                   <Button
                     onClick={() => setShortBreakConfig(10)}
-                    colorScheme='blue'
+                    bg='red.300'
+                    color='white'
+                    _hover={{ bg: 'red.400' }}
+                    _active={{
+                      bg: 'red.400',
+                      transform: 'scale(0.98)',
+                      borderColor: '#bec3c9',
+                    }}
                     size='sm'
                     ml='4'
                   >
@@ -190,7 +240,14 @@ export default function ModalConfig() {
                   </Button>
                   <Button
                     onClick={() => setShortBreakConfig(15)}
-                    colorScheme='blue'
+                    bg='red.300'
+                    color='white'
+                    _hover={{ bg: 'red.400' }}
+                    _active={{
+                      bg: 'red.400',
+                      transform: 'scale(0.98)',
+                      borderColor: '#bec3c9',
+                    }}
                     size='sm'
                     ml='4'
                   >
@@ -205,7 +262,7 @@ export default function ModalConfig() {
                 p='10px'
                 margin='10px'
               >
-                <FormLabel textAlign='center'>Long Break Duration</FormLabel>
+                <FormLabel htmlFor='longBreakDuration' textAlign='center'>Long Break Duration</FormLabel>
                 <Flex>
                   <NumberInput
                     w='80px'
@@ -214,7 +271,8 @@ export default function ModalConfig() {
                     value={longBreakConfig}
                     onChange={val => setLongBreakConfig(val)}
                     type='number'
-                    name='shortBreakDuration'
+                    name='longBreakDuration'
+                    id='longBreakBreakDuration'
                     variant='filled'
                   >
                     <NumberInputField />
@@ -237,14 +295,28 @@ export default function ModalConfig() {
                 <Flex justifyContent='center' mt='2'>
                   <Button
                     onClick={() => setLongBreakConfig(15)}
-                    colorScheme='blue'
+                    bg='red.300'
+                    color='white'
+                    _hover={{ bg: 'red.400' }}
+                    _active={{
+                      bg: 'red.400',
+                      transform: 'scale(0.98)',
+                      borderColor: '#bec3c9',
+                    }}
                     size='sm'
                   >
                     15
                   </Button>
                   <Button
                     onClick={() => setLongBreakConfig(20)}
-                    colorScheme='blue'
+                    bg='red.300'
+                    color='white'
+                    _hover={{ bg: 'red.400' }}
+                    _active={{
+                      bg: 'red.400',
+                      transform: 'scale(0.98)',
+                      borderColor: '#bec3c9',
+                    }}
                     size='sm'
                     ml='4'
                   >
@@ -252,7 +324,14 @@ export default function ModalConfig() {
                   </Button>
                   <Button
                     onClick={() => setLongBreakConfig(25)}
-                    colorScheme='blue'
+                    bg='red.300'
+                    color='white'
+                    _hover={{ bg: 'red.400' }}
+                    _active={{
+                      bg: 'red.400',
+                      transform: 'scale(0.98)',
+                      borderColor: '#bec3c9',
+                    }}
                     size='sm'
                     ml='4'
                   >
@@ -262,7 +341,27 @@ export default function ModalConfig() {
               </Flex>
 
               <Flex py='4' justifyContent='center'>
-                <Button type='submit' colorScheme='blue' size='md'>
+                <FormLabel htmlFor='longBreakDuration' textAlign='center'>Exibir notificações</FormLabel>
+                <Switch 
+                  colorScheme='red'
+                  onChange={toggleSwitch}
+                  isChecked={context.notifications}
+                />
+              </Flex>
+
+              <Flex py='4' justifyContent='center'>
+                <Button
+                  type='submit'
+                  bg='gray.600'
+                  color='white'
+                  _hover={{ bg: 'gray.700' }}
+                  _active={{
+                    bg: 'gray.700',
+                    transform: 'scale(0.98)',
+                    borderColor: '#bec3c9',
+                  }}
+                  size='md'
+                >
                   Apply
                 </Button>
               </Flex>
