@@ -7,7 +7,6 @@ import '../styles/globals.scss'
 
 function MyApp({ Component, pageProps }) {
   initializeFireBase()
-  console.log(texts)
 
   return (
     <ChakraProvider>

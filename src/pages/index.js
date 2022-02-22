@@ -10,15 +10,19 @@ import {
   Heading,
   HStack,
   Text,
+  useColorMode,
   useToast,
 } from '@chakra-ui/react'
 
 import ModalConfig from '../components/ModalConfig'
 import { useAppContext } from '../contexts/AppContext'
 import { MuteConfig } from '../components/MuteConfig'
+import { ColorConfig } from '../components/ColorConfig'
 
 export default function Home() {
   const context = useAppContext()
+
+  const { colorMode } = useColorMode()
 
   const toast = useToast({
     title: 'Atenção!',
@@ -65,17 +69,19 @@ export default function Home() {
         width='100%'
         height='100vh'
         bg=
-        {
+        {colorMode === 'light' ? (
           context.cycleState == 'focus'
             ? 'red.100'
             : context.cycleState == 'shortBreak'
               ? 'blue.100'
-              : 'blue.200'
+              : 'blue.200')
+          : ('gray.800')
         }
         transition="background-color 300ms linear"
       >
         <Box pt="70" maxWidth="xl" >
           <Flex justify="end">
+            <ColorConfig />
             <MuteConfig />
             <ModalConfig />
           </Flex>
@@ -91,7 +97,7 @@ export default function Home() {
           alignItems='center'
           maxW='sm'
         >
-          <Text fontSize={['7xl', '8xl']} my="3" color='gray.600' fontWeight='500'>
+          <Text fontSize={['7xl', '8xl']} my="3" color={colorMode === 'light' ? 'gray.600' : 'gray.200'} fontWeight='500'>
             {context.timer.toFormat('mm:ss')}
           </Text>
 
