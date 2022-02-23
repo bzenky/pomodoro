@@ -3,3 +3,11 @@
   margin: 0;
   box-sizing: border-box;
 }
+
+.chakra-switch span[data-checked] {
+  background: #e53e3e;
+
+  span {
+    background: #ebf2f7;
+  }
+}

@@ -18,6 +18,8 @@ import {
   SliderTrack,
   SliderFilledTrack,
   SliderThumb,
+  Switch,
+  useColorMode,
   useDisclosure
 } from '@chakra-ui/react'
 
@@ -27,13 +29,26 @@ import { Duration } from 'luxon'
 
 import { useAppContext } from '../../contexts/AppContext'
 
+import { requestNotificationPermission } from '../../utils/push-notification'
+
 export default function ModalConfig() {
   const context = useAppContext()
+
+  const { colorMode } = useColorMode()
 
   const [focusConfig, setFocusConfig] = useState(context.focusDuration)
   const [shortBreakConfig, setShortBreakConfig] = useState(context.shortBreakDuration)
   const [longBreakConfig, setLongBreakConfig] = useState(context.longBreakDuration)
   const { isOpen, onOpen, onClose } = useDisclosure()
+
+  function toggleSwitch() {
+    if (context.notifications) {
+      context.setNotifications(false)
+    } else {
+      requestNotificationPermission()
+      context.setNotifications(true)
+    }
+  }
 
   function handleSubmit(e) {
     e.preventDefault()
@@ -59,15 +74,14 @@ export default function ModalConfig() {
 
   return (
     <>
-      <Flex justifyContent='end'>
-        <IconButton
-          onClick={openConfig}
-          bg='transparent'
-          aria-label='Open Pomodoro configurations'
-          icon={<SettingsIcon />}
-          size='lg'
-        />
-      </Flex>
+      <IconButton
+        onClick={openConfig}
+        bg='transparent'
+        aria-label='Open Pomodoro configurations'
+        icon={<SettingsIcon />}
+        size='lg'
+      />
+
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
@@ -259,7 +273,7 @@ export default function ModalConfig() {
                     onChange={val => setLongBreakConfig(val)}
                     type='number'
                     name='longBreakDuration'
-                    id='longBreakBreakDuration'
+                    id='longBreakDuration'
                     variant='filled'
                   >
                     <NumberInputField />
@@ -328,13 +342,22 @@ export default function ModalConfig() {
               </Flex>
 
               <Flex py='4' justifyContent='center'>
+                <FormLabel htmlFor='longBreakDuration' textAlign='center'>Show notifications</FormLabel>
+                <Switch
+                  colorScheme={colorMode === 'light' ? 'red' : ''}
+                  onChange={toggleSwitch}
+                  isChecked={context.notifications}
+                />
+              </Flex>
+
+              <Flex py='4' justifyContent='center'>
                 <Button
                   type='submit'
-                  bg='gray.600'
+                  bg={colorMode === 'light' ? 'gray.500' : 'gray.500'}
                   color='white'
-                  _hover={{ bg: 'gray.700' }}
+                  _hover={{ bg: colorMode === 'light' ? 'gray.600' : 'gray.600' }}
                   _active={{
-                    bg: 'gray.700',
+                    bg: colorMode === 'light' ? 'gray.700' : 'gray.700',
                     transform: 'scale(0.98)',
                     borderColor: '#bec3c9',
                   }}
