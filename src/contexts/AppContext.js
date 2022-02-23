@@ -56,7 +56,7 @@ export function AppContextProvider({ children }) {
       clearInterval(intervalRef.current)
     } else {
       setButtonDescription(false)
-      intervalRef.current = setInterval(decreaseNum, 1)
+      intervalRef.current = setInterval(decreaseNum, 1000)
     }
     setPause(prev => !prev)
   }
