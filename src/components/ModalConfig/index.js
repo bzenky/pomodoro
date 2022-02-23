@@ -19,6 +19,7 @@ import {
   SliderFilledTrack,
   SliderThumb,
   Switch,
+  useColorMode,
   useDisclosure
 } from '@chakra-ui/react'
 
@@ -33,13 +34,15 @@ import { requestNotificationPermission } from '../../utils/push-notification'
 export default function ModalConfig() {
   const context = useAppContext()
 
+  const { colorMode } = useColorMode()
+
   const [focusConfig, setFocusConfig] = useState(context.focusDuration)
   const [shortBreakConfig, setShortBreakConfig] = useState(context.shortBreakDuration)
   const [longBreakConfig, setLongBreakConfig] = useState(context.longBreakDuration)
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   function toggleSwitch() {
-    if (context.notifications){
+    if (context.notifications) {
       context.setNotifications(false)
     } else {
       requestNotificationPermission()
@@ -270,7 +273,7 @@ export default function ModalConfig() {
                     onChange={val => setLongBreakConfig(val)}
                     type='number'
                     name='longBreakDuration'
-                    id='longBreakBreakDuration'
+                    id='longBreakDuration'
                     variant='filled'
                   >
                     <NumberInputField />
@@ -340,8 +343,8 @@ export default function ModalConfig() {
 
               <Flex py='4' justifyContent='center'>
                 <FormLabel htmlFor='longBreakDuration' textAlign='center'>Show notifications</FormLabel>
-                <Switch 
-                  colorScheme='red'
+                <Switch
+                  colorScheme={colorMode === 'light' ? 'red' : ''}
                   onChange={toggleSwitch}
                   isChecked={context.notifications}
                 />
@@ -350,11 +353,11 @@ export default function ModalConfig() {
               <Flex py='4' justifyContent='center'>
                 <Button
                   type='submit'
-                  bg='gray.600'
+                  bg={colorMode === 'light' ? 'gray.500' : 'gray.500'}
                   color='white'
-                  _hover={{ bg: 'gray.700' }}
+                  _hover={{ bg: colorMode === 'light' ? 'gray.600' : 'gray.600' }}
                   _active={{
-                    bg: 'gray.700',
+                    bg: colorMode === 'light' ? 'gray.700' : 'gray.700',
                     transform: 'scale(0.98)',
                     borderColor: '#bec3c9',
                   }}

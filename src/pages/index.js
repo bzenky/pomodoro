@@ -102,11 +102,25 @@ export default function Home() {
           </Text>
 
           <HStack spacing='83' >
-            <Button size="lg" width='115px' colorScheme="red" onClick={context.handleClick}>
+            <Button
+              size="lg"
+              width='115px'
+              color='white'
+              bg={colorMode === 'light' ? 'red.500' : 'red.800'}
+              _hover={{ bg: colorMode === 'light' ? 'red.600' : 'red.900' }}
+              onClick={context.handleClick}
+            >
               {context.buttonDescription ? 'Start' : 'Pause'}
             </Button>
 
-            <Button size="lg" width='115px' colorScheme="yellow" onClick={context.resetTimer}>
+            <Button
+              size="lg"
+              width='115px'
+              color='black'
+              bg={colorMode === 'light' ? 'yellow.400' : 'yellow.500'}
+              _hover={{ bg: colorMode === 'light' ? 'yellow.500' : 'yellow.600' }}
+              onClick={context.resetTimer}
+            >
               Reset
             </Button>
           </HStack>

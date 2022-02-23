@@ -56,7 +56,7 @@ export function AppContextProvider({ children }) {
       clearInterval(intervalRef.current)
     } else {
       setButtonDescription(false)
-      intervalRef.current = setInterval(decreaseNum, 1000)
+      intervalRef.current = setInterval(decreaseNum, 1)
     }
     setPause(prev => !prev)
   }
@@ -83,7 +83,7 @@ export function AppContextProvider({ children }) {
     if (notifications) {
       const messaging = getMessaging()
 
-      const token = await getToken(messaging, {vapidKey: process.env.NEXT_PUBLIC_VAPID_KEY})
+      const token = await getToken(messaging, { vapidKey: process.env.NEXT_PUBLIC_VAPID_KEY })
 
       const header = {
         'Content-Type': 'application/json',
@@ -99,10 +99,10 @@ export function AppContextProvider({ children }) {
         },
         'to': token
       }
-      
+
       const url = 'https://fcm.googleapis.com/fcm/send'
 
-      axios.post(url, body,{ headers: header })
+      axios.post(url, body, { headers: header })
     }
   }
 
