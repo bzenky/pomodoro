@@ -33,6 +33,15 @@ import { requestNotificationPermission } from '../../utils/push-notification'
 
 export default function ModalConfig() {
   const context = useAppContext()
+  
+  const {
+    modalConfigsTitle,
+    applyButton,
+    focusDurationLabel,
+    shortBreakLabel,
+    longBreakLabel,
+    notificationsLabel
+  } = context.state.texts
 
   const { colorMode } = useColorMode()
 
@@ -46,7 +55,6 @@ export default function ModalConfig() {
       context.setNotifications(false)
     } else {
       requestNotificationPermission()
-      context.setNotifications(true)
     }
   }
 
@@ -86,7 +94,7 @@ export default function ModalConfig() {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent >
-          <ModalHeader textAlign='center'>Configs</ModalHeader>
+          <ModalHeader textAlign='center'>{modalConfigsTitle}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <FormControl as="form" onSubmit={handleSubmit}>
@@ -95,7 +103,7 @@ export default function ModalConfig() {
                 padding='0 10px 10px'
                 margin='0 10px 10px'
               >
-                <FormLabel htmlFor='focusDuration' textAlign='center'>Focus Duration</FormLabel>
+                <FormLabel htmlFor='focusDuration' textAlign='center'>{focusDurationLabel}</FormLabel>
                 <Flex>
                   <NumberInput
                     w='80px'
@@ -179,7 +187,7 @@ export default function ModalConfig() {
                 p='10px'
                 margin='10px'
               >
-                <FormLabel htmlFor='shortBreakDuration' textAlign='center'>Short Break Duration</FormLabel>
+                <FormLabel htmlFor='shortBreakDuration' textAlign='center'>{shortBreakLabel}</FormLabel>
                 <Flex>
                   <NumberInput
                     w='80px'
@@ -263,7 +271,7 @@ export default function ModalConfig() {
                 p='10px'
                 margin='10px'
               >
-                <FormLabel htmlFor='longBreakDuration' textAlign='center'>Long Break Duration</FormLabel>
+                <FormLabel htmlFor='longBreakDuration' textAlign='center'>{longBreakLabel}</FormLabel>
                 <Flex>
                   <NumberInput
                     w='80px'
@@ -342,7 +350,7 @@ export default function ModalConfig() {
               </Flex>
 
               <Flex py='4' justifyContent='center'>
-                <FormLabel htmlFor='longBreakDuration' textAlign='center'>Show notifications</FormLabel>
+                <FormLabel htmlFor='longBreakDuration' textAlign='center'>{notificationsLabel}</FormLabel>
                 <Switch
                   colorScheme={colorMode === 'light' ? 'red' : ''}
                   onChange={toggleSwitch}
@@ -363,7 +371,7 @@ export default function ModalConfig() {
                   }}
                   size='md'
                 >
-                  Apply
+                  {applyButton}
                 </Button>
               </Flex>
 
