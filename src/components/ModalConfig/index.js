@@ -54,6 +54,7 @@ export default function ModalConfig() {
     if (context.notifications) {
       context.setNotifications(false)
     } else {
+      context.setNotifications(true)
       requestNotificationPermission()
     }
   }
