@@ -86,9 +86,8 @@ export default function Home() {
         <Box pt="70" maxWidth="xl" >
           <Flex justify="end" align='center'>
             <ColorConfig />
-            <MuteConfig />
-            <ModalConfig />
             <LanguageConfig />
+            <ModalConfig />
           </Flex>
 
           <Heading as='h1' py='2' fontSize={['5xl', '6xl']} color='red.500'>Pomodoro</Heading>

@@ -2,14 +2,16 @@
 export const multiLanguageTexts = {
   en: {
     title: 'Helping you achieve the most of yourself!',
-    modalConfigsTitle: 'Configs',
+    modalConfigsTitle: 'Settings',
     startButton: 'Start',
     pauseButton: 'Pause',
     resetButton: 'Reset',
     applyButton: 'Apply',
-    focusDurationLabel: 'Focus duration (minutes)',
-    shortBreakLabel: 'Short break duration (minutes)',
-    longBreakLabel: 'Long break duration (minutes)',
+    timeConfigLabel: 'Time in minutes',
+    focusDurationLabel: 'Focus',
+    shortBreakLabel: 'Short break',
+    longBreakLabel: 'Long break',
+    volumeTitle: 'Alarm volume',
     notificationsLabel: 'Show notifications',
   },
   pt: {
@@ -19,9 +21,11 @@ export const multiLanguageTexts = {
     pauseButton: 'Pausar',
     resetButton: 'Resetar',
     applyButton: 'Aplicar',
-    focusDurationLabel: 'Duração do ciclo de foco (minutos)',
-    shortBreakLabel: 'Duração da pausa curta (minutos)',
-    longBreakLabel: 'Duração da pausa longa (minutos)',
+    timeConfigLabel: 'Tempo em minutos',
+    focusDurationLabel: 'Foco',
+    shortBreakLabel: 'Pausa curta',
+    longBreakLabel: 'Pausa longa',
+    volumeTitle: 'Volume do alarme',
     notificationsLabel: 'Exibir notificações',
   }
 }

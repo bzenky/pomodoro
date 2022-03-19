@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useRef, useEffect } from 'react'
+import { createContext, useContext, useState, useRef } from 'react'
 
 import { setPersistedState } from '../utils/setPersistedState'
 
@@ -21,6 +21,7 @@ export function AppContextProvider({ children }) {
   const [cycle, setCycle] = useState(1)
   const [cycleState, setCycleState] = useState('focus')
 
+  const [volume, setVolume] = useState(100)
   const [focusDuration, setFocusDuration] = setPersistedState('focusDuration', 25)
   const [shortBreakDuration, setShortBreakDuration] = setPersistedState('shortBreakDuration', 5)
   const [longBreakDuration, setLongBreakDuration] = setPersistedState('longBreakDuration', 15)
@@ -37,9 +38,9 @@ export function AppContextProvider({ children }) {
 
   const [languageSelected, setLanguageSelected] = setPersistedState('language', "en")
 
-  const [alarm] = useSound('/alarm.wav', { interrupt: true, volume: muted ? 0 : 1 })
-  const [reset] = useSound('/reset.wav', { interrupt: true, volume: muted ? 0 : 0.6 })
-  const [clock] = useSound('/clock.wav', { interrupt: true, volume: muted ? 0 : 1 })
+  const [alarm] = useSound('/alarm.wav', { interrupt: true, volume: (volume / 100) })
+  const [reset] = useSound('/reset.wav', { interrupt: true, volume: (volume / 100) })
+  const [clock] = useSound('/clock.wav', { interrupt: true, volume: (volume / 100) })
 
   let intervalRef = useRef()
   const workerRef = useRef()
@@ -82,7 +83,11 @@ export function AppContextProvider({ children }) {
     setCycleState('focus')
     clearInterval(intervalRef.current)
     reset()
-    workerRef.current.terminate()
+
+    try {
+      workerRef.current.terminate()
+    } catch {
+    }
   }
 
   function cycles(duration, cycle) {
@@ -134,6 +139,8 @@ export function AppContextProvider({ children }) {
     setLongBreakDuration,
     setShortBreakDuration,
     setTimer,
+    setVolume,
+    volume,
     timer,
     muted,
     setMuted,
