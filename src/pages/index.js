@@ -18,11 +18,14 @@ import ModalConfig from '../components/ModalConfig'
 import { useAppContext } from '../contexts/AppContext'
 import { MuteConfig } from '../components/MuteConfig'
 import { ColorConfig } from '../components/ColorConfig'
+import { LanguageConfig } from '../components/LanguageConfig'
 
 export default function Home() {
   const context = useAppContext()
 
   const { colorMode } = useColorMode()
+
+  const { title, startButton, pauseButton, resetButton } = context.state.texts
 
   const toast = useToast({
     title: 'Atenção!',
@@ -55,6 +58,7 @@ export default function Home() {
       context.pushNotification()
       toast()
     }
+
   }, [context.timer])
 
   return (
@@ -80,14 +84,14 @@ export default function Home() {
         transition="background-color 300ms linear"
       >
         <Box pt="70" maxWidth="xl" >
-          <Flex justify="end">
+          <Flex justify="end" align='center'>
             <ColorConfig />
-            <MuteConfig />
+            <LanguageConfig />
             <ModalConfig />
           </Flex>
 
           <Heading as='h1' py='2' fontSize={['5xl', '6xl']} color='red.500'>Pomodoro</Heading>
-          <Text mt='4' fontSize={['xl', '2xl']} >Helping you achieve the most of yourself!</Text>
+          <Text mt='4' fontSize={['xl', '2xl']} >{title}</Text>
         </Box>
 
         <Box
@@ -110,7 +114,7 @@ export default function Home() {
               _hover={{ bg: colorMode === 'light' ? 'red.600' : 'red.900' }}
               onClick={context.handleClick}
             >
-              {context.buttonDescription ? 'Start' : 'Pause'}
+              {context.buttonDescription ? startButton : pauseButton}
             </Button>
 
             <Button
@@ -121,7 +125,7 @@ export default function Home() {
               _hover={{ bg: colorMode === 'light' ? 'yellow.500' : 'yellow.600' }}
               onClick={context.resetTimer}
             >
-              Reset
+              {resetButton}
             </Button>
           </HStack>
         </Box>

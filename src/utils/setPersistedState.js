@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-export const notificationPersistedState = (key, initialState) => {
+export const setPersistedState = (key, initialState) => {
 
   const [state, setState] = useState(() => {
     const storageValue = typeof(window) !== 'undefined' ? localStorage.getItem(key) : null

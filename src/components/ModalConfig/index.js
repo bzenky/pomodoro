@@ -18,7 +18,9 @@ import {
   SliderTrack,
   SliderFilledTrack,
   SliderThumb,
+  SliderMark,
   Switch,
+  Text,
   useColorMode,
   useDisclosure
 } from '@chakra-ui/react'
@@ -34,19 +36,31 @@ import { requestNotificationPermission } from '../../utils/push-notification'
 export default function ModalConfig() {
   const context = useAppContext()
 
+  const {
+    applyButton,
+    focusDurationLabel,
+    longBreakLabel,
+    modalConfigsTitle,
+    notificationsLabel,
+    shortBreakLabel,
+    timeConfigLabel,
+    volumeTitle
+  } = context.state.texts
+
   const { colorMode } = useColorMode()
 
   const [focusConfig, setFocusConfig] = useState(context.focusDuration)
   const [shortBreakConfig, setShortBreakConfig] = useState(context.shortBreakDuration)
   const [longBreakConfig, setLongBreakConfig] = useState(context.longBreakDuration)
+  const [volume, setVolume] = useState(context.volume)
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   function toggleSwitch() {
     if (context.notifications) {
       context.setNotifications(false)
     } else {
-      requestNotificationPermission()
       context.setNotifications(true)
+      requestNotificationPermission()
     }
   }
 
@@ -57,6 +71,7 @@ export default function ModalConfig() {
     context.setTimer(Duration.fromObject({ minutes: focusConfig }))
     context.setShortBreakDuration(shortBreakConfig)
     context.setLongBreakDuration(longBreakConfig)
+    context.setVolume(volume)
     context.setCycle(1)
 
     onClose()
@@ -82,24 +97,29 @@ export default function ModalConfig() {
         size='lg'
       />
 
-
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent >
-          <ModalHeader textAlign='center'>Configs</ModalHeader>
+          <ModalHeader textAlign='center'>{modalConfigsTitle}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <FormControl as="form" onSubmit={handleSubmit}>
+              <Text mb="16px" color={colorMode === 'light' ? 'gray.600' : 'gray.200'} fontWeight='500' textAlign='center'>
+                {timeConfigLabel}
+              </Text>
+
               <Flex
-                flexDirection='column'
-                padding='0 10px 10px'
-                margin='0 10px 10px'
+                justifyContent='center'
+                alignItems='center'
+                padding='0 16px 16px'
+                borderBottom={colorMode === 'light' ? '1px solid #00000027' : '1px solid #FFFFFF27'}
               >
-                <FormLabel htmlFor='focusDuration' textAlign='center'>Focus Duration</FormLabel>
-                <Flex>
+                <Flex direction='column' justifyContent='center' mr='16px'>
+                  <FormLabel htmlFor='focusDuration' textAlign='center' m='0 0 8px'>
+                    {focusDurationLabel}
+                  </FormLabel>
                   <NumberInput
                     w='80px'
-                    margin='10px'
                     min={1}
                     value={focusConfig}
                     onChange={val => setFocusConfig(val)}
@@ -110,80 +130,14 @@ export default function ModalConfig() {
                   >
                     <NumberInputField />
                   </NumberInput>
-                  <Slider
-                    w='80%'
-                    margin='10px'
-                    flex='1'
-                    min={1}
-                    focusThumbOnChange={false}
-                    value={focusConfig}
-                    onChange={val => setFocusConfig(val)}
-                  >
-                    <SliderTrack h='5px'>
-                      <SliderFilledTrack bg={'red.300'} />
-                    </SliderTrack>
-                    <SliderThumb bg='gray.500' />
-                  </Slider>
                 </Flex>
-                <Flex justifyContent='center' mt='2'>
-                  <Button
-                    onClick={() => setFocusConfig(25)}
-                    bg='red.300'
-                    color='white'
-                    _hover={{ bg: 'red.400' }}
-                    _active={{
-                      bg: 'red.400',
-                      transform: 'scale(0.98)',
-                      borderColor: '#bec3c9',
-                    }}
-                    size='sm'
-                  >
-                    25
-                  </Button>
-                  <Button
-                    onClick={() => setFocusConfig(45)}
-                    bg='red.300'
-                    color='white'
-                    _hover={{ bg: 'red.400' }}
-                    _active={{
-                      bg: 'red.400',
-                      transform: 'scale(0.98)',
-                      borderColor: '#bec3c9',
-                    }}
-                    size='sm'
-                    ml='4'
-                  >
-                    45
-                  </Button>
-                  <Button
-                    onClick={() => setFocusConfig(60)}
-                    bg='red.300'
-                    color='white'
-                    _hover={{ bg: 'red.400' }}
-                    _active={{
-                      bg: 'red.400',
-                      transform: 'scale(0.98)',
-                      borderColor: '#bec3c9',
-                    }}
-                    ml='4'
-                    size='sm'
-                  >
-                    60
-                  </Button>
-                </Flex>
-              </Flex>
 
-              <Flex
-                flexDirection='column'
-                borderTop='1px solid rgba(0 0 0 / .08)'
-                p='10px'
-                margin='10px'
-              >
-                <FormLabel htmlFor='shortBreakDuration' textAlign='center'>Short Break Duration</FormLabel>
-                <Flex>
+                <Flex direction='column' justifyContent='center' mr='16px'>
+                  <FormLabel htmlFor='shortBreakDuration' textAlign='center' m='0 0 8px'>
+                    {shortBreakLabel}
+                  </FormLabel>
                   <NumberInput
                     w='80px'
-                    margin='10px'
                     min={1}
                     value={shortBreakConfig}
                     onChange={val => setShortBreakConfig(val)}
@@ -194,80 +148,14 @@ export default function ModalConfig() {
                   >
                     <NumberInputField />
                   </NumberInput>
-                  <Slider
-                    w='80%'
-                    margin='10px'
-                    flex='1'
-                    min={1}
-                    focusThumbOnChange={false}
-                    value={shortBreakConfig}
-                    onChange={val => setShortBreakConfig(val)}
-                  >
-                    <SliderTrack h='5px'>
-                      <SliderFilledTrack bg={'red.300'} />
-                    </SliderTrack>
-                    <SliderThumb bg='gray.500' />
-                  </Slider>
                 </Flex>
-                <Flex justifyContent='center' mt='2'>
-                  <Button
-                    onClick={() => setShortBreakConfig(5)}
-                    bg='red.300'
-                    color='white'
-                    _hover={{ bg: 'red.400' }}
-                    _active={{
-                      bg: 'red.400',
-                      transform: 'scale(0.98)',
-                      borderColor: '#bec3c9',
-                    }}
-                    size='sm'
-                  >
-                    05
-                  </Button>
-                  <Button
-                    onClick={() => setShortBreakConfig(10)}
-                    bg='red.300'
-                    color='white'
-                    _hover={{ bg: 'red.400' }}
-                    _active={{
-                      bg: 'red.400',
-                      transform: 'scale(0.98)',
-                      borderColor: '#bec3c9',
-                    }}
-                    size='sm'
-                    ml='4'
-                  >
-                    10
-                  </Button>
-                  <Button
-                    onClick={() => setShortBreakConfig(15)}
-                    bg='red.300'
-                    color='white'
-                    _hover={{ bg: 'red.400' }}
-                    _active={{
-                      bg: 'red.400',
-                      transform: 'scale(0.98)',
-                      borderColor: '#bec3c9',
-                    }}
-                    size='sm'
-                    ml='4'
-                  >
-                    15
-                  </Button>
-                </Flex>
-              </Flex>
 
-              <Flex
-                flexDirection='column'
-                borderTop='1px solid rgba(0 0 0 / .08)'
-                p='10px'
-                margin='10px'
-              >
-                <FormLabel htmlFor='longBreakDuration' textAlign='center'>Long Break Duration</FormLabel>
-                <Flex>
+                <Flex direction='column' justifyContent='center'>
+                  <FormLabel htmlFor='longBreakDuration' textAlign='center' m='0 0 8px'>
+                    {longBreakLabel}
+                  </FormLabel>
                   <NumberInput
                     w='80px'
-                    margin='10px'
                     min={1}
                     value={longBreakConfig}
                     onChange={val => setLongBreakConfig(val)}
@@ -278,71 +166,49 @@ export default function ModalConfig() {
                   >
                     <NumberInputField />
                   </NumberInput>
-                  <Slider
-                    w='80%'
-                    margin='10px'
-                    flex='1'
-                    min={1}
-                    focusThumbOnChange={false}
-                    value={longBreakConfig}
-                    onChange={val => setLongBreakConfig(val)}
-                  >
-                    <SliderTrack h='5px'>
-                      <SliderFilledTrack bg={'red.300'} />
-                    </SliderTrack>
-                    <SliderThumb bg='gray.500' />
-                  </Slider>
-                </Flex>
-                <Flex justifyContent='center' mt='2'>
-                  <Button
-                    onClick={() => setLongBreakConfig(15)}
-                    bg='red.300'
-                    color='white'
-                    _hover={{ bg: 'red.400' }}
-                    _active={{
-                      bg: 'red.400',
-                      transform: 'scale(0.98)',
-                      borderColor: '#bec3c9',
-                    }}
-                    size='sm'
-                  >
-                    15
-                  </Button>
-                  <Button
-                    onClick={() => setLongBreakConfig(20)}
-                    bg='red.300'
-                    color='white'
-                    _hover={{ bg: 'red.400' }}
-                    _active={{
-                      bg: 'red.400',
-                      transform: 'scale(0.98)',
-                      borderColor: '#bec3c9',
-                    }}
-                    size='sm'
-                    ml='4'
-                  >
-                    20
-                  </Button>
-                  <Button
-                    onClick={() => setLongBreakConfig(25)}
-                    bg='red.300'
-                    color='white'
-                    _hover={{ bg: 'red.400' }}
-                    _active={{
-                      bg: 'red.400',
-                      transform: 'scale(0.98)',
-                      borderColor: '#bec3c9',
-                    }}
-                    size='sm'
-                    ml='4'
-                  >
-                    25
-                  </Button>
                 </Flex>
               </Flex>
 
-              <Flex py='4' justifyContent='center'>
-                <FormLabel htmlFor='longBreakDuration' textAlign='center'>Show notifications</FormLabel>
+              <Flex mt="24px" pb="24px" align="center" borderBottom={colorMode === 'light' ? '1px solid #00000027' : '1px solid #FFFFFF27'}>
+                <FormLabel htmlFor='volumeSounds' textAlign='center'>{volumeTitle}</FormLabel>
+                <Slider
+                  w='80%'
+                  margin='16px'
+                  flex='1'
+                  min={0}
+                  max={100}
+                  value={volume}
+                  onChange={val => setVolume(val)}
+                >
+                  <SliderMark value={25} mt='8px' ml='-2.5' fontSize='sm'>
+                    25%
+                  </SliderMark>
+                  <SliderMark value={50} mt='8px' ml='-2.5' fontSize='sm'>
+                    50%
+                  </SliderMark>
+                  <SliderMark value={75} mt='8px' ml='-2.5' fontSize='sm'>
+                    75%
+                  </SliderMark>
+                  <SliderMark
+                    value={volume}
+                    textAlign='center'
+                    bg='blue.600'
+                    color='white'
+                    mt='-10'
+                    ml='-5'
+                    w='12'
+                  >
+                    {volume}%
+                  </SliderMark>
+                  <SliderTrack >
+                    <SliderFilledTrack bg={'red.300'} />
+                  </SliderTrack>
+                  <SliderThumb bg='gray.500' />
+                </Slider>
+              </Flex>
+
+              <Flex mt='32px' justifyContent='center' align='center'>
+                <FormLabel htmlFor='longBreakDuration' textAlign='center'>{notificationsLabel}</FormLabel>
                 <Switch
                   colorScheme={colorMode === 'light' ? 'red' : ''}
                   onChange={toggleSwitch}
@@ -350,7 +216,7 @@ export default function ModalConfig() {
                 />
               </Flex>
 
-              <Flex py='4' justifyContent='center'>
+              <Flex py='24px' justifyContent='center'>
                 <Button
                   type='submit'
                   bg={colorMode === 'light' ? 'gray.500' : 'gray.500'}
@@ -363,7 +229,7 @@ export default function ModalConfig() {
                   }}
                   size='md'
                 >
-                  Apply
+                  {applyButton}
                 </Button>
               </Flex>
 

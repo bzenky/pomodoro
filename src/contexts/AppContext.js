@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useRef } from 'react'
 
-import { notificationPersistedState } from '../utils/notificationPersistedState'
+import { setPersistedState } from '../utils/setPersistedState'
 
 import { Duration } from 'luxon'
 
@@ -14,14 +14,17 @@ import axios from 'axios'
 
 const AppContext = createContext()
 
+import { multiLanguageTexts } from '../utils/multiLanguageTexts'
+
 export function AppContextProvider({ children }) {
 
   const [cycle, setCycle] = useState(1)
   const [cycleState, setCycleState] = useState('focus')
 
-  const [focusDuration, setFocusDuration] = useState(25)
-  const [shortBreakDuration, setShortBreakDuration] = useState(5)
-  const [longBreakDuration, setLongBreakDuration] = useState(15)
+  const [volume, setVolume] = useState(100)
+  const [focusDuration, setFocusDuration] = setPersistedState('focusDuration', 25)
+  const [shortBreakDuration, setShortBreakDuration] = setPersistedState('shortBreakDuration', 5)
+  const [longBreakDuration, setLongBreakDuration] = setPersistedState('longBreakDuration', 15)
 
   const initialTimer = Duration.fromObject({ minutes: focusDuration })
 
@@ -29,18 +32,28 @@ export function AppContextProvider({ children }) {
 
   const [buttonDescription, setButtonDescription] = useState(true)
   const [pause, setPause] = useState(true)
-  const [notifications, setNotifications] = notificationPersistedState('notificationActived', false)
+  const [notifications, setNotifications] = setPersistedState('notificationActived', false)
 
   const [muted, setMuted] = useState(false)
 
-  const [alarm] = useSound('/alarm.wav', { interrupt: true, volume: muted ? 0 : 1 })
-  const [reset] = useSound('/reset.wav', { interrupt: true, volume: muted ? 0 : 0.6 })
-  const [clock] = useSound('/clock.wav', { interrupt: true, volume: muted ? 0 : 1 })
+  const [languageSelected, setLanguageSelected] = setPersistedState('language', "en")
+
+  const [alarm] = useSound('/alarm.wav', { interrupt: true, volume: (volume / 100) })
+  const [reset] = useSound('/reset.wav', { interrupt: true, volume: (volume / 100) })
+  const [clock] = useSound('/clock.wav', { interrupt: true, volume: (volume / 100) })
 
   let intervalRef = useRef()
+  const workerRef = useRef()
 
   function handleClick() {
-    clock()
+
+    function initializaWebWorker() {
+      clock()
+      workerRef.current = new Worker(new URL('../utils/worker.js', import.meta.url))
+      workerRef.current.onmessage = message => {
+        decreaseNum()
+      }
+    }
 
     function decreaseNum() {
       if (timer == 0) {
@@ -54,9 +67,10 @@ export function AppContextProvider({ children }) {
     if (!pause) {
       setButtonDescription(true)
       clearInterval(intervalRef.current)
+      workerRef.current.terminate()
     } else {
       setButtonDescription(false)
-      intervalRef.current = setInterval(decreaseNum, 1000)
+      intervalRef.current = initializaWebWorker()
     }
     setPause(prev => !prev)
   }
@@ -69,6 +83,11 @@ export function AppContextProvider({ children }) {
     setCycleState('focus')
     clearInterval(intervalRef.current)
     reset()
+
+    try {
+      workerRef.current.terminate()
+    } catch {
+    }
   }
 
   function cycles(duration, cycle) {
@@ -77,6 +96,7 @@ export function AppContextProvider({ children }) {
     setCycle(cycle)
     setPause(true)
     clearInterval(intervalRef.current)
+    workerRef.current.terminate()
   }
 
   async function pushNotification() {
@@ -119,6 +139,8 @@ export function AppContextProvider({ children }) {
     setLongBreakDuration,
     setShortBreakDuration,
     setTimer,
+    setVolume,
+    volume,
     timer,
     muted,
     setMuted,
@@ -136,6 +158,11 @@ export function AppContextProvider({ children }) {
     pushNotification,
     notifications,
     setNotifications,
+    state: {
+      texts: multiLanguageTexts[languageSelected],
+    },
+    languageSelected,
+    setLanguageSelected,
   }
 
   return (
