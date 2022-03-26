@@ -16,9 +16,10 @@ import {
 
 import ModalConfig from '../components/ModalConfig'
 import { useAppContext } from '../contexts/AppContext'
-import { MuteConfig } from '../components/MuteConfig'
 import { ColorConfig } from '../components/ColorConfig'
 import { LanguageConfig } from '../components/LanguageConfig'
+import { Video } from '../components/Video'
+import { VideoPlayer } from '../components/VideoPlayer'
 
 export default function Home() {
   const context = useAppContext()
@@ -68,30 +69,35 @@ export default function Home() {
       </Head>
 
       <Container
+        position="relative"
+        overflow="hidden"
         align="center"
         maxW='100vw'
         width='100%'
         height='100vh'
         bg=
-        {colorMode === 'light' ? (
-          context.cycleState == 'focus'
-            ? 'red.100'
-            : context.cycleState == 'shortBreak'
-              ? 'blue.100'
-              : 'blue.200')
-          : ('gray.800')
+        {context.videoPlaying
+          ? 'transparent'
+          : colorMode === 'light' ? (
+            context.cycleState == 'focus'
+              ? 'red.100'
+              : context.cycleState == 'shortBreak'
+                ? 'blue.100'
+                : 'blue.200')
+            : ('gray.800')
         }
-        transition="background-color 300ms linear"
+        transition="all 400ms linear"
       >
-        <Box pt="70" maxWidth="xl" >
+        <Video />
+        <Box pt="10" maxWidth="xl" >
           <Flex justify="end" align='center'>
             <ColorConfig />
             <LanguageConfig />
             <ModalConfig />
           </Flex>
 
-          <Heading as='h1' py='2' fontSize={['5xl', '6xl']} color='red.500'>Pomodoro</Heading>
-          <Text mt='4' fontSize={['xl', '2xl']} >{title}</Text>
+          <Heading as='h1' py='8' fontSize={['5xl', '6xl']} color='red.500'>Pomodoro</Heading>
+          <Text fontSize={['xl', '2xl']} >{title}</Text>
         </Box>
 
         <Box
@@ -101,7 +107,7 @@ export default function Home() {
           alignItems='center'
           maxW='sm'
         >
-          <Text fontSize={['7xl', '8xl']} my="3" color={colorMode === 'light' ? 'gray.600' : 'gray.200'} fontWeight='500'>
+          <Text fontSize={['7xl', '8xl']} my="8" color={colorMode === 'light' ? 'gray.600' : 'gray.200'} fontWeight='500'>
             {context.timer.toFormat('mm:ss')}
           </Text>
 
@@ -129,6 +135,8 @@ export default function Home() {
             </Button>
           </HStack>
         </Box>
+
+        <VideoPlayer />
       </Container>
     </>
   )

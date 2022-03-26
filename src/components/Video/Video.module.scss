@@ -1,0 +1,18 @@
+.video {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 300% !important;
+    height: 130% !important;
+    filter: opacity(0.6);
+
+    z-index: -1;
+
+    @media screen and (max-width: 700px) {
+        top: 0;
+        left: 0;
+        width: 100% !important;
+        height: 100% !important;
+        transform: scale(4);
+    }
+}
