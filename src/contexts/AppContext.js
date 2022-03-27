@@ -1,20 +1,15 @@
 import { createContext, useContext, useState, useRef } from 'react'
-
-import { setPersistedState } from '../utils/setPersistedState'
-
+import axios from 'axios'
 import { Duration } from 'luxon'
-
 import useSound from 'use-sound'
-
 import { getMessaging, getToken } from 'firebase/messaging'
+import { setPersistedState } from '../utils/setPersistedState'
+import { multiLanguageTexts } from '../utils/multiLanguageTexts'
+import { radioLinks } from '../utils/radioLinks'
 
 import Favicon from '../../public/favicon.ico'
 
-import axios from 'axios'
-
 const AppContext = createContext()
-
-import { multiLanguageTexts } from '../utils/multiLanguageTexts'
 
 export function AppContextProvider({ children }) {
 
@@ -27,20 +22,23 @@ export function AppContextProvider({ children }) {
   const [longBreakDuration, setLongBreakDuration] = setPersistedState('longBreakDuration', 15)
 
   const initialTimer = Duration.fromObject({ minutes: focusDuration })
-
   const [timer, setTimer] = useState(initialTimer)
 
   const [buttonDescription, setButtonDescription] = useState(true)
   const [pause, setPause] = useState(true)
   const [notifications, setNotifications] = setPersistedState('notificationActived', false)
 
-  const [muted, setMuted] = useState(false)
-
   const [languageSelected, setLanguageSelected] = setPersistedState('language', "en")
+
+  const [muted, setMuted] = useState(false)
 
   const [alarm] = useSound('/alarm.wav', { interrupt: true, volume: (volume / 100) })
   const [reset] = useSound('/reset.wav', { interrupt: true, volume: (volume / 100) })
   const [clock] = useSound('/clock.wav', { interrupt: true, volume: (volume / 100) })
+
+  const [videoVolume, setVideoVolume] = useState(1)
+  const [videoPlaying, setVideoPlaying] = useState(false)
+  const [selectedRadio, setSelectedRadio] = useState(radioLinks[0].url)
 
   let intervalRef = useRef()
   const workerRef = useRef()
@@ -163,6 +161,12 @@ export function AppContextProvider({ children }) {
     },
     languageSelected,
     setLanguageSelected,
+    videoPlaying,
+    setVideoPlaying,
+    videoVolume,
+    setVideoVolume,
+    selectedRadio,
+    setSelectedRadio,
   }
 
   return (

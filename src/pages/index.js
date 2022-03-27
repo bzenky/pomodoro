@@ -1,7 +1,5 @@
 import { useEffect } from 'react'
 
-import Head from 'next/head'
-
 import {
   Box,
   Button,
@@ -16,9 +14,11 @@ import {
 
 import ModalConfig from '../components/ModalConfig'
 import { useAppContext } from '../contexts/AppContext'
-import { MuteConfig } from '../components/MuteConfig'
 import { ColorConfig } from '../components/ColorConfig'
 import { LanguageConfig } from '../components/LanguageConfig'
+import { Video } from '../components/Video'
+import { VideoPlayer } from '../components/VideoPlayer'
+import { HeadConfig } from '../components/HeadConfig'
 
 export default function Home() {
   const context = useAppContext()
@@ -63,35 +63,38 @@ export default function Home() {
 
   return (
     <>
-      <Head>
-        <title>{context.pause ? `Pomo-Pomodoro` : `${context.timer.toFormat('mm:ss')} - Pomo-Pomodoro`}</title>
-      </Head>
+      <HeadConfig />
 
       <Container
+        position="relative"
+        overflow="hidden"
         align="center"
         maxW='100vw'
         width='100%'
         height='100vh'
         bg=
-        {colorMode === 'light' ? (
-          context.cycleState == 'focus'
-            ? 'red.100'
-            : context.cycleState == 'shortBreak'
-              ? 'blue.100'
-              : 'blue.200')
-          : ('gray.800')
+        {context.videoPlaying
+          ? 'transparent'
+          : colorMode === 'light' ? (
+            context.cycleState == 'focus'
+              ? 'red.100'
+              : context.cycleState == 'shortBreak'
+                ? 'blue.100'
+                : 'blue.200')
+            : ('gray.800')
         }
-        transition="background-color 300ms linear"
+        transition="all 400ms linear"
       >
-        <Box pt="70" maxWidth="xl" >
+        <Video />
+        <Box pt="10" maxWidth="xl" >
           <Flex justify="end" align='center'>
             <ColorConfig />
             <LanguageConfig />
             <ModalConfig />
           </Flex>
 
-          <Heading as='h1' py='2' fontSize={['5xl', '6xl']} color='red.500'>Pomodoro</Heading>
-          <Text mt='4' fontSize={['xl', '2xl']} >{title}</Text>
+          <Heading as='h1' py='8' fontSize={['5xl', '6xl']} color='red.500'>Pomo-Pomodoro</Heading>
+          <Text fontSize={['xl', '2xl']} >{title}</Text>
         </Box>
 
         <Box
@@ -101,7 +104,7 @@ export default function Home() {
           alignItems='center'
           maxW='sm'
         >
-          <Text fontSize={['7xl', '8xl']} my="3" color={colorMode === 'light' ? 'gray.600' : 'gray.200'} fontWeight='500'>
+          <Text fontSize={['7xl', '8xl']} my="8" color={colorMode === 'light' ? 'gray.600' : 'gray.200'} fontWeight='500'>
             {context.timer.toFormat('mm:ss')}
           </Text>
 
@@ -110,8 +113,9 @@ export default function Home() {
               size="lg"
               width='115px'
               color='white'
-              bg={colorMode === 'light' ? 'red.500' : 'red.800'}
-              _hover={{ bg: colorMode === 'light' ? 'red.600' : 'red.900' }}
+              boxShadow='0 0 5px #e7e7e7'
+              bg='red.500'
+              _hover={{ bg: 'red.600' }}
               onClick={context.handleClick}
             >
               {context.buttonDescription ? startButton : pauseButton}
@@ -121,14 +125,17 @@ export default function Home() {
               size="lg"
               width='115px'
               color='black'
-              bg={colorMode === 'light' ? 'yellow.400' : 'yellow.500'}
-              _hover={{ bg: colorMode === 'light' ? 'yellow.500' : 'yellow.600' }}
+              boxShadow='0 0 5px #e7e7e7'
+              bg='yellow.400'
+              _hover={{ bg: 'yellow.500' }}
               onClick={context.resetTimer}
             >
               {resetButton}
             </Button>
           </HStack>
         </Box>
+
+        <VideoPlayer />
       </Container>
     </>
   )
