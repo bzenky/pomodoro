@@ -116,8 +116,9 @@ export default function Home() {
               size="lg"
               width='115px'
               color='white'
-              bg={colorMode === 'light' ? 'red.500' : 'red.800'}
-              _hover={{ bg: colorMode === 'light' ? 'red.600' : 'red.900' }}
+              boxShadow='0 0 5px #e7e7e7'
+              bg='red.500'
+              _hover={{ bg: 'red.600' }}
               onClick={context.handleClick}
             >
               {context.buttonDescription ? startButton : pauseButton}
@@ -127,8 +128,9 @@ export default function Home() {
               size="lg"
               width='115px'
               color='black'
-              bg={colorMode === 'light' ? 'yellow.400' : 'yellow.500'}
-              _hover={{ bg: colorMode === 'light' ? 'yellow.500' : 'yellow.600' }}
+              boxShadow='0 0 5px #e7e7e7'
+              bg='yellow.400'
+              _hover={{ bg: 'yellow.500' }}
               onClick={context.resetTimer}
             >
               {resetButton}
