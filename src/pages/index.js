@@ -1,7 +1,5 @@
 import { useEffect } from 'react'
 
-import Head from 'next/head'
-
 import {
   Box,
   Button,
@@ -20,6 +18,7 @@ import { ColorConfig } from '../components/ColorConfig'
 import { LanguageConfig } from '../components/LanguageConfig'
 import { Video } from '../components/Video'
 import { VideoPlayer } from '../components/VideoPlayer'
+import { HeadConfig } from '../components/HeadConfig'
 
 export default function Home() {
   const context = useAppContext()
@@ -64,9 +63,7 @@ export default function Home() {
 
   return (
     <>
-      <Head>
-        <title>{context.pause ? `Pomo-Pomodoro` : `${context.timer.toFormat('mm:ss')} - Pomo-Pomodoro`}</title>
-      </Head>
+      <HeadConfig />
 
       <Container
         position="relative"
@@ -96,7 +93,7 @@ export default function Home() {
             <ModalConfig />
           </Flex>
 
-          <Heading as='h1' py='8' fontSize={['5xl', '6xl']} color='red.500'>Pomodoro</Heading>
+          <Heading as='h1' py='8' fontSize={['5xl', '6xl']} color='red.500'>Pomo-Pomodoro</Heading>
           <Text fontSize={['xl', '2xl']} >{title}</Text>
         </Box>
 

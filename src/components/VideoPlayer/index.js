@@ -41,7 +41,7 @@ export function VideoPlayer() {
         >
             <Select
                 variant='flushed'
-                w='180px'
+                w='160px'
                 mr='4'
                 align='center'
                 onChange={(e) => setSelectedRadio(e.target.value)}
