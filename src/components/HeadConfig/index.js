@@ -13,6 +13,7 @@ export function HeadConfig() {
             <meta name="og:title" property="og:title" content="Pomo-Pomodoro"></meta>
             <meta property="og:image" content="https://www.pomopomodoro.tech/metaImg.png"></meta>
             <meta name="robots" content="index, follow"></meta>
+            <meta name="google-site-verification" content="FNVgTegWhJr89tTIcUvJDXOid6NzHGKvqSSW-lrXOG0" />
         </Head>
     )
 }
