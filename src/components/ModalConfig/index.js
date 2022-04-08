@@ -67,30 +67,28 @@ export default function ModalConfig() {
   function handleSubmit(e) {
     e.preventDefault()
 
+    if (!context.pause) {
+      context.setButtonDescription(true)
+      context.setPause(true)
+      context.workerRef.current.terminate()
+    }
+
+    clearInterval(context.intervalRef.current)
     context.setFocusDuration(focusConfig)
     context.setTimer(Duration.fromObject({ minutes: focusConfig }))
     context.setShortBreakDuration(shortBreakConfig)
     context.setLongBreakDuration(longBreakConfig)
     context.setVolume(volume)
     context.setCycle(1)
+    context.setCycleState('focus')
 
     onClose()
-  }
-
-  function openConfig() {
-    if (!context.pause) {
-      context.setButtonDescription(true)
-      clearInterval(context.intervalRef.current)
-      context.setPause(true)
-    }
-
-    onOpen()
   }
 
   return (
     <>
       <IconButton
-        onClick={openConfig}
+        onClick={onOpen}
         bg='transparent'
         aria-label='Open Pomodoro configurations'
         icon={<SettingsIcon />}
