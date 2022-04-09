@@ -1,5 +1,4 @@
 import { useState } from 'react'
-
 import {
   Button,
   Flex,
@@ -24,13 +23,10 @@ import {
   useColorMode,
   useDisclosure
 } from '@chakra-ui/react'
-
 import { SettingsIcon } from '@chakra-ui/icons'
-
 import { Duration } from 'luxon'
 
 import { useAppContext } from '../../contexts/AppContext'
-
 import { requestNotificationPermission } from '../../utils/push-notification'
 
 export default function ModalConfig() {
