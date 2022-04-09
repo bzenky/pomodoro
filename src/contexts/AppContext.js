@@ -167,6 +167,7 @@ export function AppContextProvider({ children }) {
     setVideoVolume,
     selectedRadio,
     setSelectedRadio,
+    workerRef
   }
 
   return (
