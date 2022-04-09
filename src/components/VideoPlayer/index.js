@@ -1,5 +1,3 @@
-import { useState } from 'react'
-
 import {
     IconButton,
     Flex,
@@ -8,7 +6,6 @@ import {
     SliderTrack,
     SliderFilledTrack,
     SliderThumb,
-    Spacer
 } from '@chakra-ui/react'
 
 import { useAppContext } from '../../contexts/AppContext'
@@ -51,7 +48,6 @@ export function VideoPlayer() {
                 ))}
             </Select>
 
-
             <IconButton
                 onClick={() => selectedRadio && setVideoPlaying(!videoPlaying)}
                 bg='transparent'
@@ -59,7 +55,6 @@ export function VideoPlayer() {
                 icon={videoPlaying ? <PauseImg /> : <PlayImg />}
                 size='md'
             />
-
 
             {videoPlaying &&
                 <Slider
