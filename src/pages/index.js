@@ -1,5 +1,4 @@
 import { useEffect } from 'react'
-
 import {
   Box,
   Button,
@@ -7,9 +6,9 @@ import {
   Flex,
   Heading,
   HStack,
-  Text,
   useColorMode,
   useToast,
+  Text,
 } from '@chakra-ui/react'
 
 import ModalConfig from '../components/ModalConfig'
@@ -134,7 +133,6 @@ export default function Home() {
             </Button>
           </HStack>
         </Box>
-
         <VideoPlayer />
       </Container>
     </>

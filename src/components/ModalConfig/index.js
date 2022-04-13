@@ -11,13 +11,6 @@ import {
   ModalHeader,
   ModalBody,
   ModalCloseButton,
-  NumberInput,
-  NumberInputField,
-  Slider,
-  SliderTrack,
-  SliderFilledTrack,
-  SliderThumb,
-  SliderMark,
   Switch,
   Text,
   useColorMode,
@@ -28,8 +21,11 @@ import { Duration } from 'luxon'
 
 import { useAppContext } from '../../contexts/AppContext'
 import { requestNotificationPermission } from '../../utils/push-notification'
+import { ModalTimeInput } from './ModalTimeInput'
+import { ModalSliderInput } from './ModalSliderInput'
 
 export default function ModalConfig() {
+  const { colorMode } = useColorMode()
   const context = useAppContext()
 
   const {
@@ -42,8 +38,6 @@ export default function ModalConfig() {
     timeConfigLabel,
     volumeTitle
   } = context.state.texts
-
-  const { colorMode } = useColorMode()
 
   const [focusConfig, setFocusConfig] = useState(context.focusDuration)
   const [shortBreakConfig, setShortBreakConfig] = useState(context.shortBreakDuration)
@@ -108,97 +102,35 @@ export default function ModalConfig() {
                 padding='0 16px 16px'
                 borderBottom={colorMode === 'light' ? '1px solid #00000027' : '1px solid #FFFFFF27'}
               >
-                <Flex direction='column' justifyContent='center' mr='16px'>
-                  <FormLabel htmlFor='focusDuration' textAlign='center' m='0 0 8px'>
-                    {focusDurationLabel}
-                  </FormLabel>
-                  <NumberInput
-                    w='80px'
-                    min={1}
-                    value={focusConfig}
-                    onChange={val => setFocusConfig(val)}
-                    type='number'
-                    name='focusDuration'
-                    id='focusDuration'
-                    variant='filled'
-                  >
-                    <NumberInputField />
-                  </NumberInput>
-                </Flex>
+                <ModalTimeInput
+                  label={focusDurationLabel}
+                  value={focusConfig}
+                  setValue={setFocusConfig}
+                  nameId='focusDuration'
+                />
 
-                <Flex direction='column' justifyContent='center' mr='16px'>
-                  <FormLabel htmlFor='shortBreakDuration' textAlign='center' m='0 0 8px'>
-                    {shortBreakLabel}
-                  </FormLabel>
-                  <NumberInput
-                    w='80px'
-                    min={1}
-                    value={shortBreakConfig}
-                    onChange={val => setShortBreakConfig(val)}
-                    type='number'
-                    name='shortBreakDuration'
-                    id='shortBreakDuration'
-                    variant='filled'
-                  >
-                    <NumberInputField />
-                  </NumberInput>
-                </Flex>
+                <ModalTimeInput
+                  label={shortBreakLabel}
+                  value={shortBreakConfig}
+                  setValue={setShortBreakConfig}
+                  nameId='shortBreakDuration'
+                />
 
-                <Flex direction='column' justifyContent='center'>
-                  <FormLabel htmlFor='longBreakDuration' textAlign='center' m='0 0 8px'>
-                    {longBreakLabel}
-                  </FormLabel>
-                  <NumberInput
-                    w='80px'
-                    min={1}
-                    value={longBreakConfig}
-                    onChange={val => setLongBreakConfig(val)}
-                    type='number'
-                    name='longBreakDuration'
-                    id='longBreakDuration'
-                    variant='filled'
-                  >
-                    <NumberInputField />
-                  </NumberInput>
-                </Flex>
+                <ModalTimeInput
+                  label={longBreakLabel}
+                  value={longBreakConfig}
+                  setValue={setLongBreakConfig}
+                  nameId='longBreakDuration'
+                />
               </Flex>
 
               <Flex mt="24px" pb="24px" align="center" borderBottom={colorMode === 'light' ? '1px solid #00000027' : '1px solid #FFFFFF27'}>
                 <FormLabel htmlFor='volumeSounds' textAlign='center'>{volumeTitle}</FormLabel>
-                <Slider
-                  w='80%'
-                  margin='16px'
-                  flex='1'
-                  min={0}
-                  max={100}
+
+                <ModalSliderInput
                   value={volume}
-                  onChange={val => setVolume(val)}
-                >
-                  <SliderMark value={25} mt='8px' ml='-2.5' fontSize='sm'>
-                    25%
-                  </SliderMark>
-                  <SliderMark value={50} mt='8px' ml='-2.5' fontSize='sm'>
-                    50%
-                  </SliderMark>
-                  <SliderMark value={75} mt='8px' ml='-2.5' fontSize='sm'>
-                    75%
-                  </SliderMark>
-                  <SliderMark
-                    value={volume}
-                    textAlign='center'
-                    bg='blue.600'
-                    color='white'
-                    mt='-10'
-                    ml='-5'
-                    w='12'
-                  >
-                    {volume}%
-                  </SliderMark>
-                  <SliderTrack >
-                    <SliderFilledTrack bg={'red.300'} />
-                  </SliderTrack>
-                  <SliderThumb bg='gray.500' />
-                </Slider>
+                  setValue={setVolume}
+                />
               </Flex>
 
               <Flex mt='32px' justifyContent='center' align='center'>
@@ -226,7 +158,6 @@ export default function ModalConfig() {
                   {applyButton}
                 </Button>
               </Flex>
-
             </FormControl>
           </ModalBody>
         </ModalContent>
