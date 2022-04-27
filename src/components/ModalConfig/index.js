@@ -86,7 +86,7 @@ export default function ModalConfig() {
       />
 
       <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
+        <ModalOverlay backdropFilter='blur(8px)' />
         <ModalContent >
           <ModalHeader textAlign='center'>{modalConfigsTitle}</ModalHeader>
           <ModalCloseButton />

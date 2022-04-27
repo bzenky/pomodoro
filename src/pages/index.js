@@ -70,7 +70,8 @@ export default function Home() {
         align="center"
         maxW='100vw'
         width='100%'
-        height='100vh'
+        height='100%'
+        minH='100vh'
         bg=
         {context.videoPlaying
           ? 'transparent'
@@ -112,7 +113,7 @@ export default function Home() {
               size="lg"
               width='115px'
               color='white'
-              boxShadow='0 0 5px #e7e7e7'
+              boxShadow='0 0 5px #C53030'
               bg='red.500'
               _hover={{ bg: 'red.600' }}
               onClick={context.handleClick}
@@ -124,7 +125,7 @@ export default function Home() {
               size="lg"
               width='115px'
               color='black'
-              boxShadow='0 0 5px #e7e7e7'
+              boxShadow='0 0 5px #ECC94B'
               bg='yellow.400'
               _hover={{ bg: 'yellow.500' }}
               onClick={context.resetTimer}
