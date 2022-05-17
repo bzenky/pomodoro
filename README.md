@@ -1,33 +1,41 @@
-<h1 align='center'>Pomodoro</h1>
+<h1 align='center'>Pomo Pomodoro</h1>
 
+<div align='center'>
+  
+![App Screenshot](https://i.imgur.com/cEhfIag.png)
+  
+</div>
+  
 <blockquote>
-A técnica Pomodoro, desenvolvida em 1988 pelo italiano Francisco Cirillo, é um método de gestão de tempo que pode ser aplicado para diversas tarefas, seja nos estudos, seja no trabalho. 
-Conforme o livro de Cirillo “The Pomodoro Technique”, a técnica foi criada para utilizar o tempo como um valioso aliado e realizar o que queremos fazer e do jeito que queremos fazê-lo. Além disso, capacita-nos continuamente para melhorar nossos processos.
+The Pomodoro technique, developed in 1988 by Francisco Cirillo, is an Italian time management method that can be applied to various tasks, whether in studies or at work.
+Cirillo's book “The Pomodoro Technique”, created to use time as a valuable ally and accomplish what we want to do and the way we want to do it. In addition, it enables us to continually improve our processes.
 </blockquote>
 
-<h2> Funcionamento </h2>
-<p>Utilizando de ciclos entre estudo/foco e descansos, o objetivo da técnica Pomodoro é aumentar a concentração, a eficiência e até uma melhor administração do tempo, seja em estudos ou no trabalho. Os ciclos do Pomodoro são definidos pelo foco, descanso curto e descanso maior. Após 03 descansos curtos, o 04º (quarto) é um descanso maior, reiniciando o ciclo logo ao término do descanso maior.</p>
-<p>Como padrão, os tempos são definidos do seguinte modo:<p>
+<h2> Functionalities </h2>
+<p>Using cycles between study/focus and rest, the purpose of the Pomodoro technique is to increase concentration, efficiency and even better time management, whether in studies or at work. Pomodoro cycles are defined by focus, short rest, and long rest. After 03 short rests, the 4th (fourth) is a longer rest, restarting the cycle at the end of the longer rest.</p>
+<p>By default, times are set as follows:<p>
 <ul>
-  <li><strong>Foco</strong>: 25 minutos</li>
-  <li><strong>Descanso menor</strong>: 5 minutos</li>
-  <li><strong>Descanso maior</strong>: 15 minutos</li>
+  <li><strong>Focus</strong>: 25 minutes</li>
+  <li><strong>Short rest</strong>: 5 minutes</li>
+  <li><strong>Longer rest</strong>: 15 minutes</li>
 </ul>
+<a href="https://www.pomopomodoro.tech/">Start using the Pomo Pomodoro now</a>
 
-<h2> Funcionalidades </h2>
+<h2> Features </h2>
 <ul>
-  <li>Configuração de cada intervalo/foco</li>  
-  <li>Controle do volume de alarme</li>
-  <li>Notificações</li>
-  <li>Línguas PT-BR / EN</li>
+  <li>Short/Longer rest and focus timer settings</li>  
+  <li>Alarm volume control</li>
+  <li>Notifications</li>
+  <li>PT-BR / EN Language</li>
   <li>Color-Mode</li>
-  <li>Rádios Lo-Fi</li>
+  <li>Lo-Fi Radios</li>
 </ul>
 
 <h2> Feedbacks </h2>
-<p>Contribuições, correções e sugestões de melhoria são muito bem-vindas.</p>
+<p>Contributions, corrections and improvement suggestions are most welcome.</p>
+<a href="https://github.com/bzenky/pomodoro/blob/main/README.pt-br.md">Readme in Portuguese (PT-BR).</a>
 
-<h2>Autores</h2>
+<h2>Authors</h2>
 
 <table align="center">
   <tr>
